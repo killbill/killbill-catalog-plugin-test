@@ -17,8 +17,7 @@
   ~ under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>killbill-oss-parent</artifactId>
@@ -28,7 +27,7 @@
     <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
     <artifactId>catalog-test</artifactId>
     <name>Test Plugin for CatalogPluginApi</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>bundle</packaging>
     <description>Test Plugin for CatalogPluginApin</description>
     <url>http://github.com/killbill/killbill-catalog-plugin-test</url>
@@ -139,7 +138,7 @@
                     <instructions>
                         <Bundle-Activator>org.killbill.billing.plugin.catalog.test.CatalogTestActivator
                         </Bundle-Activator>
-                        <Export-Package/>
+                        <Export-Package />
                         <Private-Package>org.killbill.billing.plugin.catalog.test.*</Private-Package>
                         <!-- Optional resolution because exported by the Felix system bundle -->
                         <Import-Package>javax.xml.transform.dom,javax.xml,javax.xml.bind,javax.xml.transform,javax.xml.validation,javax.xml.transform.stream,org.w3c.dom,*;resolution:=optional</Import-Package>
