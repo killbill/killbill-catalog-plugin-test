@@ -180,6 +180,6 @@
         </plugins>
     </build>
     <properties>
-        <killbill.version>0.15.0-SNAPSHOT</killbill.version>
+        <killbill.version>0.15.0</killbill.version>
     </properties>
 </project>
