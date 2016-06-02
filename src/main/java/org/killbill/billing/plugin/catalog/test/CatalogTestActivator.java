@@ -20,8 +20,8 @@ package org.killbill.billing.plugin.catalog.test;
 
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.osgi.api.OSGIPluginProperties;
-import org.killbill.killbill.osgi.libs.killbill.KillbillActivatorBase;
-import org.killbill.killbill.osgi.libs.killbill.OSGIKillbillEventDispatcher.OSGIKillbillEventHandler;
+import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
+import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.log.LogService;
 
@@ -33,7 +33,7 @@ public class CatalogTestActivator extends KillbillActivatorBase {
 
         public static final String PLUGIN_NAME = "killbill-catalog-test";
 
-    private OSGIKillbillEventHandler analyticsListener;
+    private OSGIKillbillEventDispatcher.OSGIKillbillEventHandler analyticsListener;
 
     @Override
     public void start(final BundleContext context) throws Exception {
@@ -61,7 +61,7 @@ public class CatalogTestActivator extends KillbillActivatorBase {
     }
 
     @Override
-    public OSGIKillbillEventHandler getOSGIKillbillEventHandler() {
+    public OSGIKillbillEventDispatcher.OSGIKillbillEventHandler getOSGIKillbillEventHandler() {
         return analyticsListener;
     }
 

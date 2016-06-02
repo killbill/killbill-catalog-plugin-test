@@ -30,12 +30,12 @@ import org.killbill.billing.catalog.api.Product;
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
+import org.killbill.billing.osgi.libs.killbill.OSGIKillbillLogService;
 import org.killbill.billing.payment.api.PluginProperty;
 import org.killbill.billing.plugin.catalog.test.models.StandalonePluginCatalogModel;
 import org.killbill.billing.plugin.catalog.test.models.VersionedPluginCatalogModel;
 import org.killbill.billing.util.callcontext.TenantContext;
 import org.killbill.clock.DefaultClock;
-import org.killbill.killbill.osgi.libs.killbill.OSGIKillbillLogService;
 import org.killbill.xmlloader.XMLLoader;
 import org.osgi.service.log.LogService;
 
