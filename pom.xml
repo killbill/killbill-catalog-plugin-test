@@ -22,7 +22,7 @@
     <parent>
         <artifactId>killbill-oss-parent</artifactId>
         <groupId>org.kill-bill.billing</groupId>
-        <version>0.93.seventeen-SNAPSHOT</version>
+        <version>0.102</version>
     </parent>
     <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
     <artifactId>catalog-test</artifactId>
@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.kill-bill.billing</groupId>
             <artifactId>killbill-catalog</artifactId>
-            <version>0.17.0.seventeen-SNAPSHOT</version>
+            <version>0.17.0</version>
         </dependency>
         <dependency>
             <groupId>org.kill-bill.commons</groupId>
