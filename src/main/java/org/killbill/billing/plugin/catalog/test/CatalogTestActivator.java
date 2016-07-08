@@ -41,9 +41,6 @@ public class CatalogTestActivator extends KillbillActivatorBase {
 
         logService.log(LogService.LOG_INFO, "Starting " + PLUGIN_NAME);
 
-        // Register an event listener (optional)
-        analyticsListener = new CatalogTestListener(logService, killbillAPI);
-        dispatcher.registerEventHandler(analyticsListener);
 
         final CatalogPluginApi catalogPluginApi = new CatalogTestPluginApi(configProperties.getProperties(), logService);
         registerCatalogPluginApi(context, catalogPluginApi);
@@ -51,6 +48,8 @@ public class CatalogTestActivator extends KillbillActivatorBase {
         // Register a servlet (optional)
         final CatalogTestServlet analyticsServlet = new CatalogTestServlet(logService);
         registerServlet(context, analyticsServlet);
+
+        registerEventHandler();
     }
 
     @Override
@@ -60,9 +59,10 @@ public class CatalogTestActivator extends KillbillActivatorBase {
         // Do additional work on shutdown (optional)
     }
 
-    @Override
-    public OSGIKillbillEventDispatcher.OSGIKillbillEventHandler getOSGIKillbillEventHandler() {
-        return analyticsListener;
+    private void registerEventHandler() {
+        // Register an event listener (optional)
+        analyticsListener = new CatalogTestListener(logService, killbillAPI);
+        dispatcher.registerEventHandlers(analyticsListener);
     }
 
     private void registerServlet(final BundleContext context, final HttpServlet servlet) {
