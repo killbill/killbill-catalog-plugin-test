@@ -15,15 +15,14 @@
  */
 package org.killbill.billing.plugin.catalog.test;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 import org.joda.time.DateTime;
-import org.killbill.billing.callcontext.InternalTenantContext;
 import org.killbill.billing.catalog.StandaloneCatalog;
 import org.killbill.billing.catalog.StandaloneCatalogWithPriceOverride;
 import org.killbill.billing.catalog.VersionedCatalog;
-import org.killbill.billing.catalog.api.CatalogApiException;
 import org.killbill.billing.catalog.api.Plan;
 import org.killbill.billing.catalog.api.PriceList;
 import org.killbill.billing.catalog.api.Product;
@@ -39,9 +38,9 @@ import org.killbill.clock.DefaultClock;
 import org.killbill.xmlloader.XMLLoader;
 import org.osgi.service.log.LogService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
@@ -61,33 +60,25 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     @Override
     public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties, TenantContext tenantContext) {
-
-        // Hack but we don't care since we don't use PriceOverride...
-        final InternalTenantContext internalTenantContext = new InternalTenantContext(null, null);
-        final VersionedCatalog versionedCatalog = new VersionedCatalog(new DefaultClock(), CATALOG_NAME, versions.get(0).getRecurringBillingMode(), versions, internalTenantContext);
+        final VersionedCatalog versionedCatalog = new VersionedCatalog(new DefaultClock());
 
         final VersionedPluginCatalog result = new VersionedPluginCatalogModel(versionedCatalog.getCatalogName(), versionedCatalog.getRecurringBillingMode(), toStandalonePluginCatalogs(versionedCatalog.getVersions()));
         logService.log(LogService.LOG_INFO, "CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
         return result;
     }
 
-    private Iterable<StandalonePluginCatalog> toStandalonePluginCatalogs(final List<StandaloneCatalogWithPriceOverride> input) {
-        return Iterables.transform(input, new Function<StandaloneCatalogWithPriceOverride, StandalonePluginCatalog>() {
+    private Iterable<StandalonePluginCatalog> toStandalonePluginCatalogs(final List<StandaloneCatalog> input) {
+        return Iterables.transform(input, new Function<StandaloneCatalog, StandalonePluginCatalog>() {
             @Override
-            public StandalonePluginCatalog apply(final StandaloneCatalogWithPriceOverride input) {
-                try {
-
-                    return new StandalonePluginCatalogModel(new DateTime(input.getEffectiveDate()),
-                            ImmutableList.copyOf(input.getCurrentSupportedCurrencies()),
-                            ImmutableList.<Product>copyOf(input.getCurrentProducts()),
-                            ImmutableList.<Plan>copyOf(input.getCurrentPlans()),
-                            input.getStandaloneCatalog().getPriceLists().getDefaultPricelist(),
-                            ImmutableList.<PriceList>copyOf(input.getStandaloneCatalog().getPriceLists().getChildPriceLists()),
-                            input.getStandaloneCatalog().getPlanRules(),
-                            null /*ImmutableList.<Unit>copyOf(input.getStandaloneCatalog().getCurrentUnits()) */);
-                } catch (CatalogApiException e) {
-                    throw new IllegalStateException(e);
-                }
+            public StandalonePluginCatalog apply(final StandaloneCatalog input) {
+                return new StandalonePluginCatalogModel(new DateTime(input.getEffectiveDate()),
+                                                        ImmutableList.copyOf(input.getCurrentSupportedCurrencies()),
+                                                        ImmutableList.<Product>copyOf(input.getCurrentProducts()),
+                                                        ImmutableList.<Plan>copyOf(input.getCurrentPlans()),
+                                                        input.getPriceLists().getDefaultPricelist(),
+                                                        ImmutableList.<PriceList>copyOf(input.getPriceLists().getChildPriceLists()),
+                                                        input.getPlanRules(),
+                                                        null /* ImmutableList.<Unit>copyOf(input.getCurrentUnits()) */);
             }
         });
     }
