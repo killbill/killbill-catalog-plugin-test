@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.kill-bill.billing</groupId>
             <artifactId>killbill-catalog</artifactId>
-            <version>0.18.0</version>
+            <version>${killbill.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kill-bill.commons</groupId>
@@ -180,6 +180,6 @@
         </plugins>
     </build>
     <properties>
-        <killbill.version>0.15.0</killbill.version>
+        <killbill.version>0.18.0</killbill.version>
     </properties>
 </project>
