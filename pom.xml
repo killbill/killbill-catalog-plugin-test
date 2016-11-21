@@ -27,7 +27,7 @@
     <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
     <artifactId>catalog-test</artifactId>
     <name>Test Plugin for CatalogPluginApi</name>
-    <version>0.2.0</version>
+    <version>0.2.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>Test Plugin for CatalogPluginApin</description>
     <url>http://github.com/killbill/killbill-catalog-plugin-test</url>
