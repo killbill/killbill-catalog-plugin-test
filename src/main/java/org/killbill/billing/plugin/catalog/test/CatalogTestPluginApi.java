@@ -15,17 +15,30 @@
  */
 package org.killbill.billing.plugin.catalog.test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import org.joda.time.DateTime;
+import org.killbill.billing.callcontext.InternalTenantContext;
+import org.killbill.billing.catalog.CatalogUpdater;
 import org.killbill.billing.catalog.StandaloneCatalog;
-import org.killbill.billing.catalog.StandaloneCatalogWithPriceOverride;
 import org.killbill.billing.catalog.VersionedCatalog;
+import org.killbill.billing.catalog.api.BillingMode;
+import org.killbill.billing.catalog.api.BillingPeriod;
+import org.killbill.billing.catalog.api.CatalogApiException;
+import org.killbill.billing.catalog.api.Currency;
 import org.killbill.billing.catalog.api.Plan;
 import org.killbill.billing.catalog.api.PriceList;
 import org.killbill.billing.catalog.api.Product;
+import org.killbill.billing.catalog.api.ProductCategory;
+import org.killbill.billing.catalog.api.SimplePlanDescriptor;
+import org.killbill.billing.catalog.api.TimeUnit;
+import org.killbill.billing.catalog.api.user.DefaultSimplePlanDescriptor;
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
@@ -38,32 +51,54 @@ import org.killbill.clock.DefaultClock;
 import org.killbill.xmlloader.XMLLoader;
 import org.osgi.service.log.LogService;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
-    private static final String CATALOG_NAME = "WeaponsHire.xml";
+    private static final String DEFAULT_CATALOG_NAME = "WeaponsHire.xml";
     private final OSGIKillbillLogService logService;
 
-    private List<StandaloneCatalogWithPriceOverride> versions;
+    private List<StandaloneCatalog> versions;
+
+    private String catalogName;
+    private BillingMode recurringBillingMode;
 
     public CatalogTestPluginApi(final Properties properties, final OSGIKillbillLogService logService) throws Exception {
         this.logService = logService;
-        final StandaloneCatalog inputCatalog = XMLLoader.getObjectFromString(this.getClass().getClassLoader().getResource(CATALOG_NAME).toExternalForm(), StandaloneCatalog.class);
-        versions = new ArrayList<StandaloneCatalogWithPriceOverride>();
-        final StandaloneCatalogWithPriceOverride standaloneCatalogWithPriceOverride = new StandaloneCatalogWithPriceOverride(inputCatalog, null, null, null);
-        versions.add(standaloneCatalogWithPriceOverride);
-        logService.log(LogService.LOG_INFO, "CatalogTestPluginApi : Initialized CatalogTestPluginApi with static catalog " + CATALOG_NAME);
+        final StandaloneCatalog inputCatalog = buildDefaultCatalog();
+        versions = new ArrayList<StandaloneCatalog>();
+        versions.add(inputCatalog);
+    }
+
+    private StandaloneCatalog buildDefaultCatalog() throws Exception {
+        this.catalogName = DEFAULT_CATALOG_NAME;
+        this.recurringBillingMode = BillingMode.IN_ADVANCE;
+        return XMLLoader.getObjectFromString(this.getClass().getClassLoader().getResource(DEFAULT_CATALOG_NAME).toExternalForm(), StandaloneCatalog.class);
+    }
+
+    private StandaloneCatalog buildLargeCatalog() throws CatalogApiException {
+        this.catalogName = "LargeOrders";
+        this.recurringBillingMode = BillingMode.IN_ADVANCE;
+
+        final CatalogUpdater catalogUpdater = new CatalogUpdater("dummy", BillingMode.IN_ADVANCE, new DateTime(2011, 10, 8, 0, 0), null);
+        int MAX_PLANS = 15000;
+        for (int i = 1; i <= MAX_PLANS; i++) {
+            final SimplePlanDescriptor desc = new DefaultSimplePlanDescriptor("foo-monthly-" + i + "-pl", "Foo", ProductCategory.BASE, Currency.USD, BigDecimal.TEN, BillingPeriod.MONTHLY, 0, TimeUnit.UNLIMITED, ImmutableList.<String>of());
+            catalogUpdater.addSimplePlanDescriptor(desc);
+            if (i % 1000 == 0) {
+                System.err.println("++++++++++++  Iteration = " + i);
+            }
+        }
+        logService.log(LogService.LOG_INFO, "CatalogTestPluginApi : Initialized CatalogTestPluginApi with static catalog " + DEFAULT_CATALOG_NAME);
+        return catalogUpdater.getCatalog();
     }
 
     @Override
     public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties, TenantContext tenantContext) {
-        final VersionedCatalog versionedCatalog = new VersionedCatalog(new DefaultClock());
+        System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId());
 
-        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(versionedCatalog.getCatalogName(), versionedCatalog.getRecurringBillingMode(), toStandalonePluginCatalogs(versionedCatalog.getVersions()));
+        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName, recurringBillingMode, toStandalonePluginCatalogs(versions));
         logService.log(LogService.LOG_INFO, "CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
+        logService.log(LogService.LOG_INFO, "CatalogTestPluginApi : Initialized CatalogTestPluginApi with large catalog ");
         return result;
     }
 
