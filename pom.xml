@@ -22,12 +22,12 @@
     <parent>
         <artifactId>killbill-oss-parent</artifactId>
         <groupId>org.kill-bill.billing</groupId>
-        <version>0.140.2</version>
+        <version>0.141.55</version>
     </parent>
     <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
     <artifactId>catalog-test</artifactId>
     <name>Test Plugin for CatalogPluginApi</name>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>Test Plugin for CatalogPluginApin</description>
     <url>http://github.com/killbill/killbill-catalog-plugin-test</url>
@@ -180,6 +180,6 @@
         </plugins>
     </build>
     <properties>
-        <killbill.version>0.18.0</killbill.version>
+        <killbill.version>0.19.9</killbill.version>
     </properties>
 </project>

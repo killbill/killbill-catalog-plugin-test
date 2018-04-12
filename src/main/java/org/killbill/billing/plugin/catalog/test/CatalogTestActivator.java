@@ -18,22 +18,17 @@
 
 package org.killbill.billing.plugin.catalog.test;
 
+import java.util.Hashtable;
+
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.osgi.api.OSGIPluginProperties;
 import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
-import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.log.LogService;
 
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServlet;
-import java.util.Hashtable;
-
 public class CatalogTestActivator extends KillbillActivatorBase {
 
-        public static final String PLUGIN_NAME = "killbill-catalog-test";
-
-    private OSGIKillbillEventDispatcher.OSGIKillbillEventHandler analyticsListener;
+    public static final String PLUGIN_NAME = "killbill-catalog-test";
 
     @Override
     public void start(final BundleContext context) throws Exception {
@@ -41,34 +36,8 @@ public class CatalogTestActivator extends KillbillActivatorBase {
 
         logService.log(LogService.LOG_INFO, "Starting " + PLUGIN_NAME);
 
-
         final CatalogPluginApi catalogPluginApi = new CatalogTestPluginApi(configProperties.getProperties(), logService);
         registerCatalogPluginApi(context, catalogPluginApi);
-
-        // Register a servlet (optional)
-        final CatalogTestServlet analyticsServlet = new CatalogTestServlet(logService);
-        registerServlet(context, analyticsServlet);
-
-        registerEventHandler();
-    }
-
-    @Override
-    public void stop(final BundleContext context) throws Exception {
-        super.stop(context);
-
-        // Do additional work on shutdown (optional)
-    }
-
-    private void registerEventHandler() {
-        // Register an event listener (optional)
-        analyticsListener = new CatalogTestListener(logService, killbillAPI);
-        dispatcher.registerEventHandlers(analyticsListener);
-    }
-
-    private void registerServlet(final BundleContext context, final HttpServlet servlet) {
-        final Hashtable<String, String> props = new Hashtable<String, String>();
-        props.put(OSGIPluginProperties.PLUGIN_NAME_PROP, PLUGIN_NAME);
-        registrar.registerService(context, Servlet.class, servlet, props);
     }
 
     private void registerCatalogPluginApi(final BundleContext context, final CatalogPluginApi api) {

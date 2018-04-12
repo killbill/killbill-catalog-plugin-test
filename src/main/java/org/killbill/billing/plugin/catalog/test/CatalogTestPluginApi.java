@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 The Billing Project, LLC
+ * Copyright 2014-2018 The Billing Project, LLC
  *
  * The Billing Project licenses this file to you under the Apache License, version 2.0
  * (the "License"); you may not use this file except in compliance with the
@@ -20,15 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import org.joda.time.DateTime;
-import org.killbill.billing.callcontext.InternalTenantContext;
 import org.killbill.billing.catalog.CatalogUpdater;
 import org.killbill.billing.catalog.StandaloneCatalog;
-import org.killbill.billing.catalog.VersionedCatalog;
-import org.killbill.billing.catalog.api.BillingMode;
 import org.killbill.billing.catalog.api.BillingPeriod;
 import org.killbill.billing.catalog.api.CatalogApiException;
 import org.killbill.billing.catalog.api.Currency;
@@ -47,10 +41,12 @@ import org.killbill.billing.payment.api.PluginProperty;
 import org.killbill.billing.plugin.catalog.test.models.StandalonePluginCatalogModel;
 import org.killbill.billing.plugin.catalog.test.models.VersionedPluginCatalogModel;
 import org.killbill.billing.util.callcontext.TenantContext;
-import org.killbill.clock.DefaultClock;
 import org.killbill.xmlloader.XMLLoader;
 import org.osgi.service.log.LogService;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
@@ -60,7 +56,6 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
     private List<StandaloneCatalog> versions;
 
     private String catalogName;
-    private BillingMode recurringBillingMode;
 
     public CatalogTestPluginApi(final Properties properties, final OSGIKillbillLogService logService) throws Exception {
         this.logService = logService;
@@ -71,15 +66,13 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     private StandaloneCatalog buildDefaultCatalog() throws Exception {
         this.catalogName = DEFAULT_CATALOG_NAME;
-        this.recurringBillingMode = BillingMode.IN_ADVANCE;
         return XMLLoader.getObjectFromString(this.getClass().getClassLoader().getResource(DEFAULT_CATALOG_NAME).toExternalForm(), StandaloneCatalog.class);
     }
 
     private StandaloneCatalog buildLargeCatalog() throws CatalogApiException {
         this.catalogName = "LargeOrders";
-        this.recurringBillingMode = BillingMode.IN_ADVANCE;
 
-        final CatalogUpdater catalogUpdater = new CatalogUpdater("dummy", BillingMode.IN_ADVANCE, new DateTime(2011, 10, 8, 0, 0), null);
+        final CatalogUpdater catalogUpdater = new CatalogUpdater(new DateTime(2011, 10, 8, 0, 0), Currency.USD);
         int MAX_PLANS = 15000;
         for (int i = 1; i <= MAX_PLANS; i++) {
             final SimplePlanDescriptor desc = new DefaultSimplePlanDescriptor("foo-monthly-" + i + "-pl", "Foo", ProductCategory.BASE, Currency.USD, BigDecimal.TEN, BillingPeriod.MONTHLY, 0, TimeUnit.UNLIMITED, ImmutableList.<String>of());
@@ -93,10 +86,15 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
     }
 
     @Override
+    public DateTime getLatestCatalogVersion(Iterable<PluginProperty> properties, TenantContext context) {
+        return null;
+    }
+
+    @Override
     public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties, TenantContext tenantContext) {
         System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId());
 
-        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName, recurringBillingMode, toStandalonePluginCatalogs(versions));
+        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName, toStandalonePluginCatalogs(versions));
         logService.log(LogService.LOG_INFO, "CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
         logService.log(LogService.LOG_INFO, "CatalogTestPluginApi : Initialized CatalogTestPluginApi with large catalog ");
         return result;
