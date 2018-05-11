@@ -15,10 +15,9 @@
  */
 package org.killbill.billing.plugin.catalog.test;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import org.joda.time.DateTime;
 import org.killbill.billing.catalog.CatalogUpdater;
@@ -44,9 +43,10 @@ import org.killbill.billing.util.callcontext.TenantContext;
 import org.killbill.xmlloader.XMLLoader;
 import org.osgi.service.log.LogService;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
@@ -91,12 +91,16 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
     }
 
     @Override
-    public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties, TenantContext tenantContext) {
-        System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId());
+    public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties,
+                                                            TenantContext tenantContext) {
 
-        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName, toStandalonePluginCatalogs(versions));
+        System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId() + ", accountId = " + tenantContext
+                .getAccountId());
+        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName,
+                                                                              toStandalonePluginCatalogs(versions));
         logService.log(LogService.LOG_INFO, "CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
-        logService.log(LogService.LOG_INFO, "CatalogTestPluginApi : Initialized CatalogTestPluginApi with large catalog ");
+        logService.log(LogService.LOG_INFO,
+                       "CatalogTestPluginApi : Initialized CatalogTestPluginApi with large catalog ");
         return result;
     }
 
