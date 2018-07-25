@@ -22,7 +22,7 @@
     <parent>
         <artifactId>killbill-oss-parent</artifactId>
         <groupId>org.kill-bill.billing</groupId>
-        <version>0.141.65</version>
+        <version>0.141.97</version>
     </parent>
     <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
     <artifactId>catalog-test</artifactId>
@@ -180,6 +180,6 @@
         </plugins>
     </build>
     <properties>
-        <killbill.version>0.19.14</killbill.version>
+        <killbill.version>0.20.0</killbill.version>
     </properties>
 </project>
