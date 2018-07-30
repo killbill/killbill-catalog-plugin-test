@@ -99,8 +99,6 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
         final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName,
                                                                               toStandalonePluginCatalogs(versions));
         logService.log(LogService.LOG_INFO, "CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
-        logService.log(LogService.LOG_INFO,
-                       "CatalogTestPluginApi : Initialized CatalogTestPluginApi with large catalog ");
         return result;
     }
 
