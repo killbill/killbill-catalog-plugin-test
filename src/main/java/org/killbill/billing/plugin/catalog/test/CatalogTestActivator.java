@@ -39,7 +39,7 @@ public class CatalogTestActivator extends KillbillActivatorBase {
 
         logService.log(LogService.LOG_INFO, "Starting " + PLUGIN_NAME);
 
-        final CatalogPluginApi catalogPluginApi = new CatalogTestPluginApi(configProperties.getProperties(), logService);
+        final CatalogPluginApi catalogPluginApi = new CatalogTestPluginApi(configProperties.getProperties());
         registerCatalogPluginApi(context, catalogPluginApi);
 
         registerEventHandler();
