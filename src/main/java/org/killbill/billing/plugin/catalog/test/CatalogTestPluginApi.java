@@ -35,13 +35,13 @@ import org.killbill.billing.catalog.api.user.DefaultSimplePlanDescriptor;
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
-import org.killbill.billing.osgi.libs.killbill.OSGIKillbillLogService;
 import org.killbill.billing.payment.api.PluginProperty;
 import org.killbill.billing.plugin.catalog.test.models.StandalonePluginCatalogModel;
 import org.killbill.billing.plugin.catalog.test.models.VersionedPluginCatalogModel;
 import org.killbill.billing.util.callcontext.TenantContext;
 import org.killbill.xmlloader.XMLLoader;
-import org.osgi.service.log.LogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -50,15 +50,15 @@ import java.util.Properties;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
+    private static final Logger logger = LoggerFactory.getLogger(CatalogTestPluginApi.class);
+
     private static final String DEFAULT_CATALOG_NAME = "WeaponsHire.xml";
-    private final OSGIKillbillLogService logService;
 
     private List<StandaloneCatalog> versions;
 
     private String catalogName;
 
-    public CatalogTestPluginApi(final Properties properties, final OSGIKillbillLogService logService) throws Exception {
-        this.logService = logService;
+    public CatalogTestPluginApi(final Properties properties) throws Exception {
         final StandaloneCatalog inputCatalog = buildDefaultCatalog();
         versions = new ArrayList<StandaloneCatalog>();
         versions.add(inputCatalog);
@@ -66,7 +66,10 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     private StandaloneCatalog buildDefaultCatalog() throws Exception {
         this.catalogName = DEFAULT_CATALOG_NAME;
-        return XMLLoader.getObjectFromString(this.getClass().getClassLoader().getResource(DEFAULT_CATALOG_NAME).toExternalForm(), StandaloneCatalog.class);
+        return XMLLoader.getObjectFromString(this.getClass()
+                                                 .getClassLoader()
+                                                 .getResource(DEFAULT_CATALOG_NAME)
+                                                 .toExternalForm(), StandaloneCatalog.class);
     }
 
     private StandaloneCatalog buildLargeCatalog() throws CatalogApiException {
@@ -75,13 +78,21 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
         final CatalogUpdater catalogUpdater = new CatalogUpdater(new DateTime(2011, 10, 8, 0, 0), Currency.USD);
         int MAX_PLANS = 15000;
         for (int i = 1; i <= MAX_PLANS; i++) {
-            final SimplePlanDescriptor desc = new DefaultSimplePlanDescriptor("foo-monthly-" + i + "-pl", "Foo", ProductCategory.BASE, Currency.USD, BigDecimal.TEN, BillingPeriod.MONTHLY, 0, TimeUnit.UNLIMITED, ImmutableList.<String>of());
+            final SimplePlanDescriptor desc = new DefaultSimplePlanDescriptor("foo-monthly-" + i + "-pl",
+                                                                              "Foo",
+                                                                              ProductCategory.BASE,
+                                                                              Currency.USD,
+                                                                              BigDecimal.TEN,
+                                                                              BillingPeriod.MONTHLY,
+                                                                              0,
+                                                                              TimeUnit.UNLIMITED,
+                                                                              ImmutableList.<String>of());
             catalogUpdater.addSimplePlanDescriptor(desc);
             if (i % 1000 == 0) {
                 System.err.println("++++++++++++  Iteration = " + i);
             }
         }
-        logService.log(LogService.LOG_INFO, "CatalogTestPluginApi : Initialized CatalogTestPluginApi with static catalog " + DEFAULT_CATALOG_NAME);
+        logger.info("CatalogTestPluginApi : Initialized CatalogTestPluginApi with static catalog " + DEFAULT_CATALOG_NAME);
         return catalogUpdater.getCatalog();
     }
 
@@ -98,7 +109,7 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
                 .getAccountId());
         final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName,
                                                                               toStandalonePluginCatalogs(versions));
-        logService.log(LogService.LOG_INFO, "CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
+        logger.info("CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
         return result;
     }
 
@@ -107,11 +118,12 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
             @Override
             public StandalonePluginCatalog apply(final StandaloneCatalog input) {
                 return new StandalonePluginCatalogModel(new DateTime(input.getEffectiveDate()),
-                                                        ImmutableList.copyOf(input.getCurrentSupportedCurrencies()),
-                                                        ImmutableList.<Product>copyOf(input.getCurrentProducts()),
-                                                        ImmutableList.<Plan>copyOf(input.getCurrentPlans()),
+                                                        ImmutableList.copyOf(input.getSupportedCurrencies()),
+                                                        ImmutableList.<Product>copyOf(input.getProducts()),
+                                                        ImmutableList.<Plan>copyOf(input.getPlans()),
                                                         input.getPriceLists().getDefaultPricelist(),
-                                                        ImmutableList.<PriceList>copyOf(input.getPriceLists().getChildPriceLists()),
+                                                        ImmutableList.<PriceList>copyOf(input.getPriceLists()
+                                                                                             .getChildPriceLists()),
                                                         input.getPlanRules(),
                                                         null /* ImmutableList.<Unit>copyOf(input.getCurrentUnits()) */);
             }
