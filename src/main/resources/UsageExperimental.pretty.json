@@ -1,0 +1,364 @@
+[
+  {
+    "name": "Usage",
+    "effectiveDate": "2013-02-08T00:00:00.000+00:00",
+    "currencies": [
+      "BTC",
+      "USD"
+    ],
+    "units": [
+      {
+        "name": "members",
+        "prettyName": "members"
+      },
+      {
+        "name": "cell-phone-minutes",
+        "prettyName": "cell-phone-minutes"
+      },
+      {
+        "name": "fastrack-tokens",
+        "prettyName": "fastrack-tokens"
+      },
+      {
+        "name": "bandwith-meg-sec",
+        "prettyName": "bandwith-meg-sec"
+      },
+      {
+        "name": "Mbytes",
+        "prettyName": "Mbytes"
+      },
+      {
+        "name": "chocolate-videos",
+        "prettyName": "chocolate-videos"
+      }
+    ],
+    "products": [
+      {
+        "type": "BASE",
+        "name": "ConsumableInArrear",
+        "prettyName": "ConsumableInArrear",
+        "plans": [
+          {
+            "name": "consumable-in-arrear",
+            "prettyName": "consumable-in-arrear",
+            "billingPeriod": "NO_BILLING_PERIOD",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": [
+                  {
+                    "billingPeriod": "MONTHLY",
+                    "tiers": [
+                      {
+                        "limits": [],
+                        "fixedPrice": [],
+                        "recurringPrice": [],
+                        "blocks": [
+                          {
+                            "unit": "cell-phone-minutes",
+                            "size": "1000.0",
+                            "max": "10000.0",
+                            "prices": [
+                              {
+                                "currency": "BTC",
+                                "value": 0.5
+                              }
+                            ]
+                          },
+                          {
+                            "unit": "Mbytes",
+                            "size": "512.0",
+                            "max": "512000.0",
+                            "prices": [
+                              {
+                                "currency": "BTC",
+                                "value": 0.3
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "ConsumableInAdvancePrepayCredit",
+        "prettyName": "ConsumableInAdvancePrepayCredit",
+        "plans": [
+          {
+            "name": "consumable-in-advance-prepay-credit-monthly",
+            "prettyName": "consumable-in-advance-prepay-credit-monthly",
+            "billingPeriod": "NO_BILLING_PERIOD",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": [
+                  {
+                    "billingPeriod": "MONTHLY",
+                    "tiers": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "Chocolate",
+        "prettyName": "Chocolate",
+        "plans": [
+          {
+            "name": "chocolate-monthly",
+            "prettyName": "chocolate-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 30
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": [
+                  {
+                    "billingPeriod": "MONTHLY",
+                    "tiers": [
+                      {
+                        "limits": [],
+                        "fixedPrice": [],
+                        "recurringPrice": [],
+                        "blocks": [
+                          {
+                            "unit": "chocolate-videos",
+                            "size": "1.0",
+                            "max": "5.0",
+                            "prices": [
+                              {
+                                "currency": "USD",
+                                "value": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "limits": [],
+                        "fixedPrice": [],
+                        "recurringPrice": [],
+                        "blocks": [
+                          {
+                            "unit": "chocolate-videos",
+                            "size": "1.0",
+                            "max": "10000.0",
+                            "prices": [
+                              {
+                                "currency": "USD",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "ConsumableInAdvanceTopUp",
+        "prettyName": "ConsumableInAdvanceTopUp",
+        "plans": [
+          {
+            "name": "consumable-in-advance-topup",
+            "prettyName": "consumable-in-advance-topup",
+            "billingPeriod": "NO_BILLING_PERIOD",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": [
+                  {
+                    "billingPeriod": "NO_BILLING_PERIOD",
+                    "tiers": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "CapacityInArrear",
+        "prettyName": "CapacityInArrear",
+        "plans": [
+          {
+            "name": "capacity-in-arrear",
+            "prettyName": "capacity-in-arrear",
+            "billingPeriod": "NO_BILLING_PERIOD",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": [
+                  {
+                    "billingPeriod": "MONTHLY",
+                    "tiers": [
+                      {
+                        "limits": [
+                          {
+                            "unit": "bandwith-meg-sec",
+                            "max": "100.0",
+                            "min": "-1.0"
+                          },
+                          {
+                            "unit": "members",
+                            "max": "500.0",
+                            "min": "-1.0"
+                          }
+                        ],
+                        "fixedPrice": [
+                          {
+                            "currency": "BTC",
+                            "value": 0.007
+                          }
+                        ],
+                        "recurringPrice": [
+                          {
+                            "currency": "BTC",
+                            "value": 0.8
+                          }
+                        ],
+                        "blocks": []
+                      },
+                      {
+                        "limits": [
+                          {
+                            "unit": "bandwith-meg-sec",
+                            "max": "100.0",
+                            "min": "-1.0"
+                          },
+                          {
+                            "unit": "members",
+                            "max": "1000.0",
+                            "min": "-1.0"
+                          }
+                        ],
+                        "fixedPrice": [
+                          {
+                            "currency": "BTC",
+                            "value": 0.4
+                          }
+                        ],
+                        "recurringPrice": [
+                          {
+                            "currency": "BTC",
+                            "value": 1.2
+                          }
+                        ],
+                        "blocks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "CapacityInAdvance",
+        "prettyName": "CapacityInAdvance",
+        "plans": [
+          {
+            "name": "capacity-in-advance-monthly",
+            "prettyName": "capacity-in-advance-monthly",
+            "billingPeriod": "NO_BILLING_PERIOD",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": [
+                  {
+                    "billingPeriod": "MONTHLY",
+                    "tiers": []
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      }
+    ],
+    "priceLists": [
+      {
+        "name": "DEFAULT",
+        "plans": [
+          "capacity-in-advance-monthly",
+          "capacity-in-arrear",
+          "chocolate-monthly",
+          "consumable-in-advance-prepay-credit-monthly",
+          "consumable-in-advance-topup",
+          "consumable-in-arrear"
+        ]
+      }
+    ]
+  }
+]
