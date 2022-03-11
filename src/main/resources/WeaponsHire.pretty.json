@@ -1,0 +1,870 @@
+[
+  {
+    "name": "Firearms",
+    "effectiveDate": "2011-10-08T00:00:00.000+00:00",
+    "currencies": [
+      "USD",
+      "EUR",
+      "GBP"
+    ],
+    "units": [],
+    "products": [
+      {
+        "type": "BASE",
+        "name": "Assault-Rifle",
+        "prettyName": "Assault-Rifle",
+        "plans": [
+          {
+            "name": "assault-rifle-annual",
+            "prettyName": "assault-rifle-annual",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 5999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 3499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 3999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "assault-rifle-annual-gunclub-discount",
+            "prettyName": "assault-rifle-annual-gunclub-discount",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "DISCOUNT",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 99.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 99.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 99.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "MONTHS",
+                  "number": 6
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 5999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 3499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 3999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "assault-rifle-annual-rescue",
+            "prettyName": "assault-rifle-annual-rescue",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "DISCOUNT",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 5999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 3499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 3999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "YEARS",
+                  "number": 1
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 5999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 3499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 3999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "assault-rifle-monthly",
+            "prettyName": "assault-rifle-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 599.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 349.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 399.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [
+          "Telescopic-Scope"
+        ],
+        "available": [
+          "Laser-Scope"
+        ]
+      },
+      {
+        "type": "ADD_ON",
+        "name": "Holster",
+        "prettyName": "Holster",
+        "plans": [
+          {
+            "name": "holster-monthly-regular",
+            "prettyName": "holster-monthly-regular",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 199.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "holster-monthly-special",
+            "prettyName": "holster-monthly-special",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 199.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "ADD_ON",
+        "name": "Refurbish-Maintenance",
+        "prettyName": "Refurbish-Maintenance",
+        "plans": [
+          {
+            "name": "refurbish-maintenance",
+            "prettyName": "refurbish-maintenance",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "FIXEDTERM",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 199.95
+                  }
+                ],
+                "fixedPrices": [
+                  {
+                    "currency": "USD",
+                    "value": 599.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 599.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 599.95
+                  }
+                ],
+                "duration": {
+                  "unit": "MONTHS",
+                  "number": 12
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "ADD_ON",
+        "name": "Extra-Ammo",
+        "prettyName": "Extra-Ammo",
+        "plans": [
+          {
+            "name": "extra-ammo-monthly",
+            "prettyName": "extra-ammo-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "Pistol",
+        "prettyName": "Pistol",
+        "plans": [
+          {
+            "name": "pistol-annual",
+            "prettyName": "pistol-annual",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 199.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "pistol-annual-gunclub-discount",
+            "prettyName": "pistol-annual-gunclub-discount",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "DISCOUNT",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 9.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 9.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 9.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "MONTHS",
+                  "number": 6
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 199.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 199.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "pistol-monthly",
+            "prettyName": "pistol-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "GBP",
+                    "value": 29.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 29.95
+                  },
+                  {
+                    "currency": "USD",
+                    "value": 29.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "BASE",
+        "name": "Shotgun",
+        "prettyName": "Shotgun",
+        "plans": [
+          {
+            "name": "shotgun-annual",
+            "prettyName": "shotgun-annual",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 2399.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 1499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 1699.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "shotgun-annual-gunclub-discount",
+            "prettyName": "shotgun-annual-gunclub-discount",
+            "billingPeriod": "ANNUAL",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "DISCOUNT",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 19.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 49.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 69.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "MONTHS",
+                  "number": 6
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 2399.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 1499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 1699.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          },
+          {
+            "name": "shotgun-monthly",
+            "prettyName": "shotgun-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "TRIAL",
+                "prices": [],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "DAYS",
+                  "number": 30
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 249.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 149.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 169.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": [
+          "Laser-Scope",
+          "Telescopic-Scope"
+        ]
+      },
+      {
+        "type": "ADD_ON",
+        "name": "Telescopic-Scope",
+        "prettyName": "Telescopic-Scope",
+        "plans": [
+          {
+            "name": "telescopic-scope-monthly",
+            "prettyName": "telescopic-scope-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "DISCOUNT",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 399.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 299.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 399.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "MONTHS",
+                  "number": 1
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      },
+      {
+        "type": "ADD_ON",
+        "name": "Laser-Scope",
+        "prettyName": "Laser-Scope",
+        "plans": [
+          {
+            "name": "laser-scope-monthly",
+            "prettyName": "laser-scope-monthly",
+            "billingPeriod": "MONTHLY",
+            "phases": [
+              {
+                "type": "DISCOUNT",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "MONTHS",
+                  "number": 1
+                },
+                "usages": []
+              },
+              {
+                "type": "EVERGREEN",
+                "prices": [
+                  {
+                    "currency": "USD",
+                    "value": 1999.95
+                  },
+                  {
+                    "currency": "EUR",
+                    "value": 1499.95
+                  },
+                  {
+                    "currency": "GBP",
+                    "value": 1999.95
+                  }
+                ],
+                "fixedPrices": [],
+                "duration": {
+                  "unit": "UNLIMITED",
+                  "number": -1
+                },
+                "usages": []
+              }
+            ]
+          }
+        ],
+        "included": [],
+        "available": []
+      }
+    ],
+    "priceLists": [
+      {
+        "name": "DEFAULT",
+        "plans": [
+          "assault-rifle-annual",
+          "assault-rifle-monthly",
+          "extra-ammo-monthly",
+          "holster-monthly-regular",
+          "laser-scope-monthly",
+          "pistol-annual",
+          "pistol-monthly",
+          "refurbish-maintenance",
+          "shotgun-annual",
+          "shotgun-monthly",
+          "telescopic-scope-monthly"
+        ]
+      },
+      {
+        "name": "gunclubDiscount",
+        "plans": [
+          "assault-rifle-annual-gunclub-discount",
+          "assault-rifle-monthly",
+          "holster-monthly-special",
+          "pistol-annual-gunclub-discount",
+          "pistol-monthly",
+          "shotgun-annual-gunclub-discount",
+          "shotgun-monthly"
+        ]
+      },
+      {
+        "name": "rescue",
+        "plans": [
+          "assault-rifle-annual-rescue"
+        ]
+      }
+    ]
+  }
+]
