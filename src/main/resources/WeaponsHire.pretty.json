@@ -851,12 +851,9 @@
         "name": "gunclubDiscount",
         "plans": [
           "assault-rifle-annual-gunclub-discount",
-          "assault-rifle-monthly",
           "holster-monthly-special",
           "pistol-annual-gunclub-discount",
-          "pistol-monthly",
-          "shotgun-annual-gunclub-discount",
-          "shotgun-monthly"
+          "shotgun-annual-gunclub-discount"
         ]
       },
       {
