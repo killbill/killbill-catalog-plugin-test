@@ -15,85 +15,62 @@
  */
 package org.killbill.billing.plugin.catalog.test;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.google.common.io.Resources;
 import org.joda.time.DateTime;
-import org.killbill.billing.catalog.CatalogUpdater;
-import org.killbill.billing.catalog.StandaloneCatalog;
-import org.killbill.billing.catalog.api.BillingPeriod;
-import org.killbill.billing.catalog.api.CatalogApiException;
-import org.killbill.billing.catalog.api.Currency;
-import org.killbill.billing.catalog.api.Plan;
-import org.killbill.billing.catalog.api.PriceList;
-import org.killbill.billing.catalog.api.Product;
-import org.killbill.billing.catalog.api.ProductCategory;
-import org.killbill.billing.catalog.api.SimplePlanDescriptor;
-import org.killbill.billing.catalog.api.TimeUnit;
-import org.killbill.billing.catalog.api.user.DefaultSimplePlanDescriptor;
-import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
-import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
-import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
-import org.killbill.billing.payment.api.PluginProperty;
-import org.killbill.billing.plugin.catalog.test.models.StandalonePluginCatalogModel;
-import org.killbill.billing.plugin.catalog.test.models.VersionedPluginCatalogModel;
-import org.killbill.billing.util.callcontext.TenantContext;
-import org.killbill.xmlloader.XMLLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
+import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
+import org.killbill.billing.payment.api.PluginProperty;
+import org.killbill.billing.util.callcontext.TenantContext;
+import org.killbill.billing.plugin.catalog.test.json.VersionedPluginCatalogJsonDeserializer;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogTestPluginApi.class);
 
-    private static final String DEFAULT_CATALOG_NAME = "WeaponsHire.xml";
-
-    private List<StandaloneCatalog> versions;
-
-    private String catalogName;
-
+    private static final String DEFAULT_CATALOG_JSON = "WeaponsHire.pretty.json";
+    private final ObjectMapper mapper;
     public CatalogTestPluginApi(final Properties properties) throws Exception {
-        final StandaloneCatalog inputCatalog = buildDefaultCatalog();
-        versions = new ArrayList<StandaloneCatalog>();
-        versions.add(inputCatalog);
+        this.mapper = createMapper();
     }
 
-    private StandaloneCatalog buildDefaultCatalog() throws Exception {
-        this.catalogName = DEFAULT_CATALOG_NAME;
-        return XMLLoader.getObjectFromString(this.getClass()
-                                                 .getClassLoader()
-                                                 .getResource(DEFAULT_CATALOG_NAME)
-                                                 .toExternalForm(), StandaloneCatalog.class);
+    private String loadResourceAsString(String path) throws IOException {
+        URL url = Resources.getResource(path);
+        return Resources.toString(url, StandardCharsets.UTF_8);
     }
 
-    private StandaloneCatalog buildLargeCatalog() throws CatalogApiException {
-        this.catalogName = "LargeOrders";
+    private ObjectMapper createMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+        mapper.registerModule(new JodaModule());
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(VersionedPluginCatalog.class, new VersionedPluginCatalogJsonDeserializer());
+        mapper.registerModule(module);
+        return mapper;
+    }
 
-        final CatalogUpdater catalogUpdater = new CatalogUpdater(new DateTime(2011, 10, 8, 0, 0), Currency.USD);
-        int MAX_PLANS = 15000;
-        for (int i = 1; i <= MAX_PLANS; i++) {
-            final SimplePlanDescriptor desc = new DefaultSimplePlanDescriptor("foo-monthly-" + i + "-pl",
-                                                                              "Foo",
-                                                                              ProductCategory.BASE,
-                                                                              Currency.USD,
-                                                                              BigDecimal.TEN,
-                                                                              BillingPeriod.MONTHLY,
-                                                                              0,
-                                                                              TimeUnit.UNLIMITED,
-                                                                              ImmutableList.<String>of());
-            catalogUpdater.addSimplePlanDescriptor(desc);
-            if (i % 1000 == 0) {
-                System.err.println("++++++++++++  Iteration = " + i);
-            }
+    private VersionedPluginCatalog readCatalogFromResource() {
+        VersionedPluginCatalog catalog = null;
+        try{
+            String json = loadResourceAsString(DEFAULT_CATALOG_JSON);
+            catalog = mapper.readValue(json, VersionedPluginCatalog.class);
+        }catch(Exception e){
         }
-        logger.info("CatalogTestPluginApi : Initialized CatalogTestPluginApi with static catalog " + DEFAULT_CATALOG_NAME);
-        return catalogUpdater.getCatalog();
+        return catalog;
     }
 
     @Override
@@ -103,30 +80,19 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     @Override
     public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties,
-                                                            TenantContext tenantContext) {
+            TenantContext tenantContext) {
 
         System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId() + ", accountId = " + tenantContext
                 .getAccountId());
-        final VersionedPluginCatalog result = new VersionedPluginCatalogModel(catalogName,
-                                                                              toStandalonePluginCatalogs(versions));
-        logger.info("CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
+
+        VersionedPluginCatalog result = readCatalogFromResource();
+
+        if(result == null) {
+            logger.error("CatalogTestPluginApi getVersionedPluginCatalog fails to read catalog from resources.. ");
+        } else {
+            logger.info("CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
+        }
         return result;
     }
 
-    private Iterable<StandalonePluginCatalog> toStandalonePluginCatalogs(final List<StandaloneCatalog> input) {
-        return Iterables.transform(input, new Function<StandaloneCatalog, StandalonePluginCatalog>() {
-            @Override
-            public StandalonePluginCatalog apply(final StandaloneCatalog input) {
-                return new StandalonePluginCatalogModel(new DateTime(input.getEffectiveDate()),
-                                                        ImmutableList.copyOf(input.getSupportedCurrencies()),
-                                                        ImmutableList.<Product>copyOf(input.getProducts()),
-                                                        ImmutableList.<Plan>copyOf(input.getPlans()),
-                                                        input.getPriceLists().getDefaultPricelist(),
-                                                        ImmutableList.<PriceList>copyOf(input.getPriceLists()
-                                                                                             .getChildPriceLists()),
-                                                        input.getPlanRules(),
-                                                        null /* ImmutableList.<Unit>copyOf(input.getCurrentUnits()) */);
-            }
-        });
-    }
 }

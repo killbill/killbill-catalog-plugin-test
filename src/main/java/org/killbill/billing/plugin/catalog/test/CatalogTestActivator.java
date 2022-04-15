@@ -29,7 +29,7 @@ import org.osgi.service.log.LogService;
 
 public class CatalogTestActivator extends KillbillActivatorBase {
 
-        public static final String PLUGIN_NAME = "killbill-catalog-test";
+    public static final String PLUGIN_NAME = "killbill-catalog-test";
 
     private OSGIKillbillEventDispatcher.OSGIKillbillEventHandler catalogTestListener;
 
@@ -57,7 +57,6 @@ public class CatalogTestActivator extends KillbillActivatorBase {
         catalogTestListener = new CatalogTestListener(logService, killbillAPI);
         dispatcher.registerEventHandlers(catalogTestListener);
     }
-
 
     private void registerCatalogPluginApi(final BundleContext context, final CatalogPluginApi api) {
         final Hashtable<String, String> props = new Hashtable<String, String>();
