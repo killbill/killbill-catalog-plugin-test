@@ -15,73 +15,71 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.BillingAlignment;
-import org.killbill.billing.catalog.api.BillingPeriod;
-import org.killbill.billing.catalog.api.PhaseType;
-import org.killbill.billing.catalog.api.PriceList;
-import org.killbill.billing.catalog.api.Product;
-import org.killbill.billing.catalog.api.ProductCategory;
-import org.killbill.billing.catalog.api.StaticCatalog;
 import org.killbill.billing.catalog.api.rules.boilerplate.CaseBillingAlignmentImp;
 
-@JsonDeserialize( builder = CaseBillingAlignmentModel.Builder.class )
+import java.util.Objects;
+
+@JsonDeserialize(builder = CaseBillingAlignmentModel.Builder.class)
 public class CaseBillingAlignmentModel extends CaseBillingAlignmentImp {
 
-    public CaseBillingAlignmentModel() { }
+    public CaseBillingAlignmentModel() {
+    }
+
     public CaseBillingAlignmentModel(final CaseBillingAlignmentModel that) {
         super(that);
     }
+
     protected CaseBillingAlignmentModel(final CaseBillingAlignmentModel.Builder<?> builder) {
         super(builder);
     }
 
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final CaseBillingAlignmentModel that = (CaseBillingAlignmentModel) o;
-        if( !Objects.equals(this.billingAlignment, that.billingAlignment) ) {
+        if (!Objects.equals(this.billingAlignment, that.billingAlignment)) {
             return false;
         }
-        if( !Objects.equals(this.billingPeriod, that.billingPeriod) ) {
+        if (!Objects.equals(this.billingPeriod, that.billingPeriod)) {
             return false;
         }
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
-        if( !Objects.equals(this.phaseType, that.phaseType) ) {
+        if (!Objects.equals(this.phaseType, that.phaseType)) {
             return false;
         }
-        if( !Safe.equals(this.priceList, that.priceList) ) {
+        if (!Safe.equals(this.priceList, that.priceList)) {
             return false;
         }
-        if( !Safe.equals(this.product, that.product) ) {
+        if (!Safe.equals(this.product, that.product)) {
             return false;
         }
-        if( !Objects.equals(this.productCategory, that.productCategory) ) {
+        if (!Objects.equals(this.productCategory, that.productCategory)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(this.billingAlignment);
-        result = ( 31 * result ) + Objects.hashCode(this.billingPeriod);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
-        result = ( 31 * result ) + Objects.hashCode(this.phaseType);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.priceList));
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.product));
-        result = ( 31 * result ) + Objects.hashCode(this.productCategory);
+        result = (31 * result) + Objects.hashCode(this.billingAlignment);
+        result = (31 * result) + Objects.hashCode(this.billingPeriod);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.phaseType);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.priceList));
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.product));
+        result = (31 * result) + Objects.hashCode(this.productCategory);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -104,17 +102,21 @@ public class CaseBillingAlignmentModel extends CaseBillingAlignmentImp {
     }
 
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends CaseBillingAlignmentModel.Builder<T>> 
-        extends CaseBillingAlignmentImp.Builder<T> {
+    public static class Builder<T extends CaseBillingAlignmentModel.Builder<T>>
+            extends CaseBillingAlignmentImp.Builder<T> {
 
-        public Builder(){}
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public CaseBillingAlignmentModel build() {
             return new CaseBillingAlignmentModel(validate());

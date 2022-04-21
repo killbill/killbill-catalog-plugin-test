@@ -16,28 +16,35 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Duration;
 import org.killbill.billing.catalog.api.boilerplate.DurationImp;
 
-@JsonDeserialize( builder = DurationModel.Builder.class )
+@JsonDeserialize(builder = DurationModel.Builder.class)
 public class DurationModel extends DurationImp {
-    public DurationModel() { }
+    public DurationModel() {
+    }
+
     public DurationModel(final DurationModel that) {
         super(that);
     }
+
     protected DurationModel(final DurationModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
     public static class Builder<T extends DurationModel.Builder<T>> extends DurationImp.Builder<T> {
-        public Builder() { }
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public DurationModel build() {
             return new DurationModel(validate());

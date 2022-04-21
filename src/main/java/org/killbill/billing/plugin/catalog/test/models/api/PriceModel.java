@@ -16,29 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Price;
 import org.killbill.billing.catalog.api.boilerplate.PriceImp;
 
-@JsonDeserialize( builder = PriceModel.Builder.class )
+@JsonDeserialize(builder = PriceModel.Builder.class)
 public class PriceModel extends PriceImp {
-    public PriceModel() { }
+    public PriceModel() {
+    }
+
     public PriceModel(final PriceModel that) {
         super(that);
     }
+
     protected PriceModel(final PriceModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends PriceModel.Builder<T>> 
-        extends PriceImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends PriceModel.Builder<T>>
+            extends PriceImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public PriceModel build() {
             return new PriceModel(validate());

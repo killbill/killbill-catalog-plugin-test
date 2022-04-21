@@ -16,30 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Limit;
 import org.killbill.billing.catalog.api.boilerplate.LimitImp;
 
-@JsonDeserialize( builder = LimitModel.Builder.class )
+@JsonDeserialize(builder = LimitModel.Builder.class)
 public class LimitModel extends LimitImp {
-    public LimitModel() { }
+    public LimitModel() {
+    }
+
     public LimitModel(final LimitModel that) {
         super(that);
     }
+
     protected LimitModel(final LimitModel.Builder<?> builder) {
         super(builder);
     }
 
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends LimitModel.Builder<T>> 
-        extends LimitImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends LimitModel.Builder<T>>
+            extends LimitImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public LimitModel build() {
             return new LimitModel(validate());

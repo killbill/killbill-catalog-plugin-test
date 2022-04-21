@@ -15,71 +15,75 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Product;
 import org.killbill.billing.catalog.api.boilerplate.ProductImp;
 
-@JsonDeserialize( builder = ProductModel.Builder.class )
+import java.util.Arrays;
+import java.util.Objects;
+
+@JsonDeserialize(builder = ProductModel.Builder.class)
 public class ProductModel extends ProductImp {
-    public ProductModel() { }
+    public ProductModel() {
+    }
+
     public ProductModel(final ProductModel that) {
         super(that);
     }
+
     protected ProductModel(final ProductModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final ProductModel that = (ProductModel) o;
-        if( !Safe.equals(this.available, that.available) ) {
+        if (!Safe.equals(this.available, that.available)) {
             return false;
         }
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
-        if( !Objects.equals(this.catalogName, that.catalogName) ) {
+        if (!Objects.equals(this.catalogName, that.catalogName)) {
             return false;
         }
-        if( !Objects.equals(this.category, that.category) ) {
+        if (!Objects.equals(this.category, that.category)) {
             return false;
         }
-        if( !Safe.equals(this.included, that.included) ) {
+        if (!Safe.equals(this.included, that.included)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.limits, that.limits) ) {
+        if (!Arrays.deepEquals(this.limits, that.limits)) {
             return false;
         }
-        if( !Objects.equals(this.name, that.name) ) {
+        if (!Objects.equals(this.name, that.name)) {
             return false;
         }
-        if( !Objects.equals(this.prettyName, that.prettyName) ) {
+        if (!Objects.equals(this.prettyName, that.prettyName)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.available));
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
-        result = ( 31 * result ) + Objects.hashCode(this.catalogName);
-        result = ( 31 * result ) + Objects.hashCode(this.category);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.included));
-        result = ( 31 * result ) + Arrays.deepHashCode(this.limits);
-        result = ( 31 * result ) + Objects.hashCode(this.name);
-        result = ( 31 * result ) + Objects.hashCode(this.prettyName);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.available));
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.catalogName);
+        result = (31 * result) + Objects.hashCode(this.category);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.included));
+        result = (31 * result) + Arrays.deepHashCode(this.limits);
+        result = (31 * result) + Objects.hashCode(this.name);
+        result = (31 * result) + Objects.hashCode(this.prettyName);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -89,9 +93,9 @@ public class ProductModel extends ProductImp {
         sb.append("catalog=").append(Safe.toString(this.catalog));
         sb.append(", ");
         sb.append("catalogName=");
-        if( this.catalogName == null ) {
+        if (this.catalogName == null) {
             sb.append(this.catalogName);
-        }else{
+        } else {
             sb.append("'").append(this.catalogName).append("'");
         }
         sb.append(", ");
@@ -102,32 +106,37 @@ public class ProductModel extends ProductImp {
         sb.append("limits=").append(Arrays.toString(this.limits));
         sb.append(", ");
         sb.append("name=");
-        if( this.name == null ) {
+        if (this.name == null) {
             sb.append(this.name);
-        }else{
+        } else {
             sb.append("'").append(this.name).append("'");
         }
         sb.append(", ");
         sb.append("prettyName=");
-        if( this.prettyName == null ) {
+        if (this.prettyName == null) {
             sb.append(this.prettyName);
-        }else{
+        } else {
             sb.append("'").append(this.prettyName).append("'");
         }
         sb.append("}");
         return sb.toString();
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends ProductModel.Builder<T>> 
-        extends ProductImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends ProductModel.Builder<T>>
+            extends ProductImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public ProductModel build() {
             return new ProductModel(validate());

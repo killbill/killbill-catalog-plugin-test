@@ -17,29 +17,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Tier;
 import org.killbill.billing.catalog.api.boilerplate.TierImp;
 
-@JsonDeserialize( builder = TierModel.Builder.class )
+@JsonDeserialize(builder = TierModel.Builder.class)
 public class TierModel extends TierImp {
-    public TierModel() { }
+    public TierModel() {
+    }
+
     public TierModel(final TierModel that) {
         super(that);
     }
+
     protected TierModel(final TierModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends TierModel.Builder<T>> 
-        extends TierImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends TierModel.Builder<T>>
+            extends TierImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public TierModel build() {
             return new TierModel(validate());

@@ -17,45 +17,19 @@
 
 package org.killbill.billing.plugin.catalog.test.json.formats;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.joda.time.DateTime;
-import org.killbill.billing.catalog.api.BillingPeriod;
-import org.killbill.billing.catalog.api.CatalogApiException;
-import org.killbill.billing.catalog.api.Currency;
-import org.killbill.billing.catalog.api.CurrencyValueNull;
-import org.killbill.billing.catalog.api.Duration;
-import org.killbill.billing.catalog.api.InternationalPrice;
-import org.killbill.billing.catalog.api.Limit;
-import org.killbill.billing.catalog.api.Plan;
-import org.killbill.billing.catalog.api.PlanPhase;
-import org.killbill.billing.catalog.api.Price;
-import org.killbill.billing.catalog.api.PriceList;
-import org.killbill.billing.catalog.api.PriceListSet;
-import org.killbill.billing.catalog.api.Product;
-import org.killbill.billing.catalog.api.StaticCatalog;
-import org.killbill.billing.catalog.api.Tier;
-import org.killbill.billing.catalog.api.TieredBlock;
-import org.killbill.billing.catalog.api.TimeUnit;
-import org.killbill.billing.catalog.api.Unit;
-import org.killbill.billing.catalog.api.Usage;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiModel;
+import org.killbill.billing.catalog.api.Currency;
+import org.killbill.billing.catalog.api.*;
 
-@ApiModel(value="Catalog")
+import java.math.BigDecimal;
+import java.util.*;
+
+@ApiModel(value = "Catalog")
 public class CatalogJson {
 
     private final String name;
@@ -67,17 +41,17 @@ public class CatalogJson {
 
     @JsonCreator
     public CatalogJson(@JsonProperty("name") final String name,
-            @JsonProperty("effectiveDate") final Date effectiveDate,
-            @JsonProperty("currencies") final List<Currency> currencies,
-            @JsonProperty("units") final List<UnitJson> units,
-            @JsonProperty("products") final List<ProductJson> products,
-            @JsonProperty("priceLists") final List<PriceListJson> priceLists) {
-            this.name = name;
-            this.effectiveDate = effectiveDate;
-            this.currencies = currencies;
-            this.units = units;
-            this.products = products;
-            this.priceLists = priceLists;
+                       @JsonProperty("effectiveDate") final Date effectiveDate,
+                       @JsonProperty("currencies") final List<Currency> currencies,
+                       @JsonProperty("units") final List<UnitJson> units,
+                       @JsonProperty("products") final List<ProductJson> products,
+                       @JsonProperty("priceLists") final List<PriceListJson> priceLists) {
+        this.name = name;
+        this.effectiveDate = effectiveDate;
+        this.currencies = currencies;
+        this.units = units;
+        this.products = products;
+        this.priceLists = priceLists;
     }
 
     public CatalogJson(final StaticCatalog catalog) throws CatalogApiException {
@@ -126,9 +100,9 @@ public class CatalogJson {
         List<PriceJson> pricesJson = new ArrayList<PriceJson>();
         Price[] prices = (internationalPrice != null) ? internationalPrice.getPrices() : null;
         if (prices != null && prices.length > 0) {
-            for (int i=0; i < prices.length; i++) {
+            for (int i = 0; i < prices.length; i++) {
                 pricesJson.add(new PriceJson(prices[i].getCurrency(),
-                            prices[i].getValue()));
+                        prices[i].getValue()));
             }
         }
         return pricesJson;
@@ -214,7 +188,7 @@ public class CatalogJson {
         return result;
     }
 
-    @ApiModel(value="Unit")
+    @ApiModel(value = "Unit")
     public static class UnitJson {
 
         private final String name;
@@ -222,9 +196,9 @@ public class CatalogJson {
 
         @JsonCreator
         public UnitJson(@JsonProperty("name") final String name,
-                @JsonProperty("prettyName") final String prettyName) {
-                this.name = name;
-                this.prettyName = prettyName;
+                        @JsonProperty("prettyName") final String prettyName) {
+            this.name = name;
+            this.prettyName = prettyName;
         }
 
         public String getName() {
@@ -264,7 +238,7 @@ public class CatalogJson {
 
     }
 
-    @ApiModel(value="Product")
+    @ApiModel(value = "Product")
     public static class ProductJson {
 
         private final String type;
@@ -276,17 +250,17 @@ public class CatalogJson {
 
         @JsonCreator
         public ProductJson(@JsonProperty("type") final String type,
-                @JsonProperty("name") final String name,
-                @JsonProperty("prettyName") final String prettyName,
-                @JsonProperty("plans") final List<PlanJson> plans,
-                @JsonProperty("included") final List<String> included,
-                @JsonProperty("available") final List<String> available) {
-                this.type = type;
-                this.name = name;
-                this.prettyName = prettyName;
-                this.plans = plans;
-                this.included = included;
-                this.available = available;
+                           @JsonProperty("name") final String name,
+                           @JsonProperty("prettyName") final String prettyName,
+                           @JsonProperty("plans") final List<PlanJson> plans,
+                           @JsonProperty("included") final List<String> included,
+                           @JsonProperty("available") final List<String> available) {
+            this.type = type;
+            this.name = name;
+            this.prettyName = prettyName;
+            this.plans = plans;
+            this.included = included;
+            this.available = available;
         }
 
         public ProductJson(final Product product) {
@@ -386,7 +360,7 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="Plan")
+    @ApiModel(value = "Plan")
     public static class PlanJson {
 
         private final String name;
@@ -409,13 +383,13 @@ public class CatalogJson {
 
         @JsonCreator
         public PlanJson(@JsonProperty("name") final String name,
-                @JsonProperty("prettyName") final String prettyName,
-                @JsonProperty("billingPeriod") final BillingPeriod billingPeriod,
-                @JsonProperty("phases") final List<PhaseJson> phases) {
-                this.name = name;
-                this.prettyName = prettyName;
-                this.billingPeriod = billingPeriod;
-                this.phases = phases;
+                        @JsonProperty("prettyName") final String prettyName,
+                        @JsonProperty("billingPeriod") final BillingPeriod billingPeriod,
+                        @JsonProperty("phases") final List<PhaseJson> phases) {
+            this.name = name;
+            this.prettyName = prettyName;
+            this.billingPeriod = billingPeriod;
+            this.phases = phases;
         }
 
         public String getName() {
@@ -478,7 +452,7 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="TieredBlock")
+    @ApiModel(value = "TieredBlock")
     public static class TieredBlockJson {
         private final String unit;
         private final String size;
@@ -487,24 +461,27 @@ public class CatalogJson {
 
         @JsonCreator
         public TieredBlockJson(@JsonProperty("unit") final String unit,
-                @JsonProperty("size") final String size,
-                @JsonProperty("max") final String max,
-                @JsonProperty("prices") final List<PriceJson> prices) {
-                this.unit = unit;
-                this.size = size;
-                this.max = max;
-                this.prices = prices;
+                               @JsonProperty("size") final String size,
+                               @JsonProperty("max") final String max,
+                               @JsonProperty("prices") final List<PriceJson> prices) {
+            this.unit = unit;
+            this.size = size;
+            this.max = max;
+            this.prices = prices;
         }
 
         public String getUnit() {
             return unit;
         }
+
         public String getSize() {
             return size;
         }
+
         public String getMax() {
             return max;
         }
+
         public List<PriceJson> getPrices() {
             return prices;
         }
@@ -557,7 +534,7 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="Limit")
+    @ApiModel(value = "Limit")
     public static class LimitJson {
         private final String unit;
         private final String max;
@@ -565,19 +542,21 @@ public class CatalogJson {
 
         @JsonCreator
         public LimitJson(@JsonProperty("unit") final String unit,
-                @JsonProperty("max") final String max,
-                @JsonProperty("min") final String min) {
-                this.unit = unit;
-                this.max = max;
-                this.min = min;
+                         @JsonProperty("max") final String max,
+                         @JsonProperty("min") final String min) {
+            this.unit = unit;
+            this.max = max;
+            this.min = min;
         }
 
         public String getUnit() {
             return unit;
         }
+
         public String getMax() {
             return max;
         }
+
         public String getMin() {
             return min;
         }
@@ -625,7 +604,7 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="Tier")
+    @ApiModel(value = "Tier")
     public static class TierJson {
         private final List<TieredBlockJson> blocks;
         private final List<LimitJson> limits;
@@ -634,24 +613,27 @@ public class CatalogJson {
 
         @JsonCreator
         public TierJson(@JsonProperty("tiers") final List<TieredBlockJson> blocks,
-                @JsonProperty("limits") final List<LimitJson> limits,
-                @JsonProperty("fixedPrice") final List<PriceJson> fixedPrice,
-                @JsonProperty("recurringPrice") final List<PriceJson> recurringPrice) {
-                this.blocks = blocks;
-                this.limits = limits;
-                this.fixedPrice = fixedPrice;
-                this.recurringPrice = recurringPrice;
+                        @JsonProperty("limits") final List<LimitJson> limits,
+                        @JsonProperty("fixedPrice") final List<PriceJson> fixedPrice,
+                        @JsonProperty("recurringPrice") final List<PriceJson> recurringPrice) {
+            this.blocks = blocks;
+            this.limits = limits;
+            this.fixedPrice = fixedPrice;
+            this.recurringPrice = recurringPrice;
         }
 
         public List<TieredBlockJson> getBlocks() {
             return blocks;
         }
+
         public List<LimitJson> getLimits() {
             return limits;
         }
+
         public List<PriceJson> getFixedPrice() {
             return fixedPrice;
         }
+
         public List<PriceJson> getRecurringPrice() {
             return recurringPrice;
         }
@@ -704,21 +686,22 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="Usage")
+    @ApiModel(value = "Usage")
     public static class UsageJson {
         private final String billingPeriod;
         private final List<TierJson> tiers;
 
         @JsonCreator
         public UsageJson(@JsonProperty("billingPeriod") final String billingPeriod,
-                @JsonProperty("tiers") final List<TierJson> tiers) {
-                this.billingPeriod = billingPeriod;
-                this.tiers = tiers;
+                         @JsonProperty("tiers") final List<TierJson> tiers) {
+            this.billingPeriod = billingPeriod;
+            this.tiers = tiers;
         }
 
         public String getBillingPeriod() {
             return billingPeriod;
         }
+
         public List<TierJson> getTiers() {
             return tiers;
         }
@@ -761,7 +744,7 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="Phase")
+    @ApiModel(value = "Phase")
     public static class PhaseJson {
 
         private final String type;
@@ -797,15 +780,15 @@ public class CatalogJson {
 
         @JsonCreator
         public PhaseJson(@JsonProperty("type") final String type,
-                @JsonProperty("prices") final List<PriceJson> prices,
-                @JsonProperty("fixedPrices") final List<PriceJson> fixedPrices,
-                @JsonProperty("duration") final DurationJson duration,
-                @JsonProperty("usages") final List<UsageJson> usages) {
-                this.type = type;
-                this.prices = prices;
-                this.fixedPrices = fixedPrices;
-                this.duration = duration;
-                this.usages = usages;
+                         @JsonProperty("prices") final List<PriceJson> prices,
+                         @JsonProperty("fixedPrices") final List<PriceJson> fixedPrices,
+                         @JsonProperty("duration") final DurationJson duration,
+                         @JsonProperty("usages") final List<UsageJson> usages) {
+            this.type = type;
+            this.prices = prices;
+            this.fixedPrices = fixedPrices;
+            this.duration = duration;
+            this.usages = usages;
         }
 
         public String getType() {
@@ -893,9 +876,9 @@ public class CatalogJson {
             if (tiers != null && tiers.length > 0) {
                 for (int i = 0; i < tiers.length; i++) {
                     tiersJson.add(new TierJson(buildTieredBlocks(tiers[i].getTieredBlocks()),
-                                buildLimits(tiers[i].getLimits()),
-                                buildPrices(tiers[i].getFixedPrice()),
-                                buildPrices(tiers[i].getRecurringPrice())));
+                            buildLimits(tiers[i].getLimits()),
+                            buildPrices(tiers[i].getFixedPrice()),
+                            buildPrices(tiers[i].getRecurringPrice())));
                 }
             }
             return tiersJson;
@@ -906,8 +889,8 @@ public class CatalogJson {
             if (limits != null && limits.length > 0) {
                 for (int i = 0; i < limits.length; i++) {
                     limitsJson.add(new LimitJson(limits[i].getUnit().getName(),
-                                limits[i].getMax().toString(),
-                                limits[i].getMin().toString()));
+                            limits[i].getMax().toString(),
+                            limits[i].getMin().toString()));
                 }
             }
             return limitsJson;
@@ -918,9 +901,9 @@ public class CatalogJson {
             if (tieredBlocks != null && tieredBlocks.length > 0) {
                 for (int i = 0; i < tieredBlocks.length; i++) {
                     tieredBlocksJson.add(new TieredBlockJson(tieredBlocks[i].getUnit().getName(),
-                                tieredBlocks[i].getSize().toString(),
-                                tieredBlocks[i].getMax().toString(),
-                                buildPrices(tieredBlocks[i].getPrice())));
+                            tieredBlocks[i].getSize().toString(),
+                            tieredBlocks[i].getMax().toString(),
+                            buildPrices(tieredBlocks[i].getPrice())));
                 }
             }
             return tieredBlocksJson;
@@ -928,7 +911,7 @@ public class CatalogJson {
     }
 
 
-    @ApiModel(value="Price")
+    @ApiModel(value = "Price")
     public static class PriceJson {
 
         private final Currency currency;
@@ -936,9 +919,9 @@ public class CatalogJson {
 
         @JsonCreator
         public PriceJson(@JsonProperty("currency") final Currency currency,
-                @JsonProperty("value") final BigDecimal value) {
-                this.currency = currency;
-                this.value = value;
+                         @JsonProperty("value") final BigDecimal value) {
+            this.currency = currency;
+            this.value = value;
         }
 
         public PriceJson(final Price price) throws CurrencyValueNull {
@@ -991,7 +974,7 @@ public class CatalogJson {
         }
     }
 
-    @ApiModel(value="PriceList")
+    @ApiModel(value = "PriceList")
     public static class PriceListJson {
 
         private String name;
@@ -999,9 +982,9 @@ public class CatalogJson {
 
         @JsonCreator
         public PriceListJson(@JsonProperty("name") final String name,
-                @JsonProperty("plans") final List<String> plans) {
-                this.name = name;
-                this.plans = plans;
+                             @JsonProperty("plans") final List<String> plans) {
+            this.name = name;
+            this.plans = plans;
         }
 
         public PriceListJson(final PriceList priceList) {
@@ -1057,7 +1040,7 @@ public class CatalogJson {
 
     }
 
-    @ApiModel(value="Duration")
+    @ApiModel(value = "Duration")
     public static class DurationJson {
 
         private final TimeUnit unit;
@@ -1065,9 +1048,9 @@ public class CatalogJson {
 
         @JsonCreator
         public DurationJson(@JsonProperty("unit") final TimeUnit unit,
-                @JsonProperty("number") final int number) {
-                this.unit = unit;
-                this.number = number;
+                            @JsonProperty("number") final int number) {
+            this.unit = unit;
+            this.number = number;
         }
 
         public DurationJson(final Duration duration) {

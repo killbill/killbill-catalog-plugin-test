@@ -16,29 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Fixed;
 import org.killbill.billing.catalog.api.boilerplate.FixedImp;
 
-@JsonDeserialize( builder = FixedModel.Builder.class )
+@JsonDeserialize(builder = FixedModel.Builder.class)
 public class FixedModel extends FixedImp {
-    public FixedModel() { }
+    public FixedModel() {
+    }
+
     public FixedModel(final FixedModel that) {
         super(that);
     }
+
     protected FixedModel(final FixedModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends FixedModel.Builder<T>> 
-        extends FixedImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends FixedModel.Builder<T>>
+            extends FixedImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public FixedModel build() {
             return new FixedModel(validate());

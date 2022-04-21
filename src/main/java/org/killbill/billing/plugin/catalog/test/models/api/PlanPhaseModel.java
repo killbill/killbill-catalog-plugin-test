@@ -15,69 +15,75 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.PlanPhase;
 import org.killbill.billing.catalog.api.boilerplate.PlanPhaseImp;
 
-@JsonDeserialize( builder = PlanPhaseModel.Builder.class )
+import java.util.Arrays;
+import java.util.Objects;
+
+@JsonDeserialize(builder = PlanPhaseModel.Builder.class)
 public class PlanPhaseModel extends PlanPhaseImp {
-    public PlanPhaseModel() { }
+    public PlanPhaseModel() {
+    }
+
     public PlanPhaseModel(final PlanPhaseModel that) {
         super(that);
     }
+
     protected PlanPhaseModel(final PlanPhaseModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final PlanPhaseModel that = (PlanPhaseModel) o;
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
-        if( !Objects.equals(this.duration, that.duration) ) {
+        if (!Objects.equals(this.duration, that.duration)) {
             return false;
         }
-        if( !Objects.equals(this.fixed, that.fixed) ) {
+        if (!Objects.equals(this.fixed, that.fixed)) {
             return false;
         }
-        if( !Objects.equals(this.name, that.name) ) {
+        if (!Objects.equals(this.name, that.name)) {
             return false;
         }
-        if( !Objects.equals(this.phaseType, that.phaseType) ) {
+        if (!Objects.equals(this.phaseType, that.phaseType)) {
             return false;
         }
-        if( !Objects.equals(this.prettyName, that.prettyName) ) {
+        if (!Objects.equals(this.prettyName, that.prettyName)) {
             return false;
         }
-        if( !Objects.equals(this.recurring, that.recurring) ) {
+        if (!Objects.equals(this.recurring, that.recurring)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.usages, that.usages) ) {
+        if (!Arrays.deepEquals(this.usages, that.usages)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
-        result = ( 31 * result ) + Objects.hashCode(this.duration);
-        result = ( 31 * result ) + Objects.hashCode(this.fixed);
-        result = ( 31 * result ) + Objects.hashCode(this.name);
-        result = ( 31 * result ) + Objects.hashCode(this.phaseType);
-        result = ( 31 * result ) + Objects.hashCode(this.prettyName);
-        result = ( 31 * result ) + Objects.hashCode(this.recurring);
-        result = ( 31 * result ) + Arrays.deepHashCode(this.usages);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.duration);
+        result = (31 * result) + Objects.hashCode(this.fixed);
+        result = (31 * result) + Objects.hashCode(this.name);
+        result = (31 * result) + Objects.hashCode(this.phaseType);
+        result = (31 * result) + Objects.hashCode(this.prettyName);
+        result = (31 * result) + Objects.hashCode(this.recurring);
+        result = (31 * result) + Arrays.deepHashCode(this.usages);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -89,18 +95,18 @@ public class PlanPhaseModel extends PlanPhaseImp {
         sb.append("fixed=").append(this.fixed);
         sb.append(", ");
         sb.append("name=");
-        if( this.name == null ) {
+        if (this.name == null) {
             sb.append(this.name);
-        }else{
+        } else {
             sb.append("'").append(this.name).append("'");
         }
         sb.append(", ");
         sb.append("phaseType=").append(this.phaseType);
         sb.append(", ");
         sb.append("prettyName=");
-        if( this.prettyName == null ) {
+        if (this.prettyName == null) {
             sb.append(this.prettyName);
-        }else{
+        } else {
             sb.append("'").append(this.prettyName).append("'");
         }
         sb.append(", ");
@@ -110,17 +116,22 @@ public class PlanPhaseModel extends PlanPhaseImp {
         sb.append("}");
         return sb.toString();
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends PlanPhaseModel.Builder<T>> 
-        extends PlanPhaseImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends PlanPhaseModel.Builder<T>>
+            extends PlanPhaseImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public PlanPhaseModel build() {
             return new PlanPhaseModel(validate());

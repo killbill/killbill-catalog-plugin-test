@@ -17,31 +17,37 @@
 package org.killbill.billing.plugin.catalog.test.models.plugin;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
 import org.killbill.billing.plugin.catalog.test.models.plugin.boilerplate.VersionedPluginCatalogImp;
 
-@JsonDeserialize( builder = VersionedPluginCatalogModel.Builder.class )
+@JsonDeserialize(builder = VersionedPluginCatalogModel.Builder.class)
 public class VersionedPluginCatalogModel extends VersionedPluginCatalogImp {
-    public VersionedPluginCatalogModel() { }
+    public VersionedPluginCatalogModel() {
+    }
+
     public VersionedPluginCatalogModel(final VersionedPluginCatalogModel that) {
         super(that);
     }
+
     protected VersionedPluginCatalogModel(final VersionedPluginCatalogModel.Builder<?> builder) {
         super(builder);
     }
-    @SuppressWarnings("unchecked")
-    public static class Builder<T extends VersionedPluginCatalogModel.Builder<T>> 
-        extends VersionedPluginCatalogImp.Builder<T> {
 
-        public Builder(){}
+    @SuppressWarnings("unchecked")
+    public static class Builder<T extends VersionedPluginCatalogModel.Builder<T>>
+            extends VersionedPluginCatalogImp.Builder<T> {
+
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public VersionedPluginCatalogModel build() {
             return new VersionedPluginCatalogModel(validate());

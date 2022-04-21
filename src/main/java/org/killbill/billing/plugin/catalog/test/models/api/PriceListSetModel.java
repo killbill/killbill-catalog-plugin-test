@@ -15,44 +15,50 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.PriceListSet;
 import org.killbill.billing.catalog.api.boilerplate.PriceListSetImp;
 
-@JsonDeserialize( builder = PriceListSetModel.Builder.class )
+import java.util.Objects;
+
+@JsonDeserialize(builder = PriceListSetModel.Builder.class)
 public class PriceListSetModel extends PriceListSetImp {
-    public PriceListSetModel() { }
+    public PriceListSetModel() {
+    }
+
     public PriceListSetModel(final PriceListSetModel that) {
         super(that);
     }
+
     protected PriceListSetModel(final PriceListSetModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final PriceListSetModel that = (PriceListSetModel) o;
-        if( !Objects.equals(this.allPriceLists, that.allPriceLists) ) {
+        if (!Objects.equals(this.allPriceLists, that.allPriceLists)) {
             return false;
         }
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(this.allPriceLists);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.allPriceLists);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -63,17 +69,22 @@ public class PriceListSetModel extends PriceListSetImp {
         sb.append("}");
         return sb.toString();
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends PriceListSetModel.Builder<T>> 
-        extends PriceListSetImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends PriceListSetModel.Builder<T>>
+            extends PriceListSetImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public PriceListSetModel build() {
             return new PriceListSetModel(validate());

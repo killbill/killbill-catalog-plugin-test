@@ -16,29 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Recurring;
 import org.killbill.billing.catalog.api.boilerplate.RecurringImp;
 
-@JsonDeserialize( builder = RecurringModel.Builder.class )
+@JsonDeserialize(builder = RecurringModel.Builder.class)
 public class RecurringModel extends RecurringImp {
-    public RecurringModel() { }
+    public RecurringModel() {
+    }
+
     public RecurringModel(final RecurringModel that) {
         super(that);
     }
+
     protected RecurringModel(final RecurringModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends RecurringModel.Builder<T>> 
-        extends RecurringImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends RecurringModel.Builder<T>>
+            extends RecurringImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public RecurringModel build() {
             return new RecurringModel(validate());

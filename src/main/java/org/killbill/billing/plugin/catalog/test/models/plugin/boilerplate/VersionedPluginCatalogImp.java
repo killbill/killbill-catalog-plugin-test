@@ -16,15 +16,14 @@
 
 package org.killbill.billing.plugin.catalog.test.models.plugin.boilerplate;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Objects;
 import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
 
-@JsonDeserialize( builder = VersionedPluginCatalogImp.Builder.class )
+import java.io.Serializable;
+import java.util.Objects;
+
+@JsonDeserialize(builder = VersionedPluginCatalogImp.Builder.class)
 public class VersionedPluginCatalogImp implements VersionedPluginCatalog, Serializable {
 
     private static final long serialVersionUID = 0x40702BFEB20D4F4BL;
@@ -36,51 +35,59 @@ public class VersionedPluginCatalogImp implements VersionedPluginCatalog, Serial
         this.catalogName = that.catalogName;
         this.standalonePluginCatalogs = that.standalonePluginCatalogs;
     }
+
     protected VersionedPluginCatalogImp(final VersionedPluginCatalogImp.Builder<?> builder) {
         this.catalogName = builder.catalogName;
         this.standalonePluginCatalogs = builder.standalonePluginCatalogs;
     }
-    protected VersionedPluginCatalogImp() { }
+
+    protected VersionedPluginCatalogImp() {
+    }
+
     @Override
     public String getCatalogName() {
         return this.catalogName;
     }
+
     @Override
     public Iterable<StandalonePluginCatalog> getStandalonePluginCatalogs() {
         return this.standalonePluginCatalogs;
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final VersionedPluginCatalogImp that = (VersionedPluginCatalogImp) o;
-        if( !Objects.equals(this.catalogName, that.catalogName) ) {
+        if (!Objects.equals(this.catalogName, that.catalogName)) {
             return false;
         }
-        if( !Objects.equals(this.standalonePluginCatalogs, that.standalonePluginCatalogs) ) {
+        if (!Objects.equals(this.standalonePluginCatalogs, that.standalonePluginCatalogs)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(this.catalogName);
-        result = ( 31 * result ) + Objects.hashCode(this.standalonePluginCatalogs);
+        result = (31 * result) + Objects.hashCode(this.catalogName);
+        result = (31 * result) + Objects.hashCode(this.standalonePluginCatalogs);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
         sb.append("{");
         sb.append("catalogName=");
-        if( this.catalogName == null ) {
+        if (this.catalogName == null) {
             sb.append(this.catalogName);
-        }else{
+        } else {
             sb.append("'").append(this.catalogName).append("'");
         }
         sb.append(", ");
@@ -95,27 +102,34 @@ public class VersionedPluginCatalogImp implements VersionedPluginCatalog, Serial
         protected String catalogName;
         protected Iterable<StandalonePluginCatalog> standalonePluginCatalogs;
 
-        public Builder() { }
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             this.catalogName = that.catalogName;
             this.standalonePluginCatalogs = that.standalonePluginCatalogs;
         }
+
         public T withCatalogName(final String catalogName) {
             this.catalogName = catalogName;
             return (T) this;
         }
+
         public T withStandalonePluginCatalogs(final Iterable<StandalonePluginCatalog> standalonePluginCatalogs) {
             this.standalonePluginCatalogs = standalonePluginCatalogs;
             return (T) this;
         }
+
         public T source(final VersionedPluginCatalog that) {
             this.catalogName = that.getCatalogName();
             this.standalonePluginCatalogs = that.getStandalonePluginCatalogs();
             return (T) this;
         }
+
         protected Builder validate() {
-          return this;
+            return this;
         }
+
         public VersionedPluginCatalogImp build() {
             return new VersionedPluginCatalogImp(this.validate());
         }

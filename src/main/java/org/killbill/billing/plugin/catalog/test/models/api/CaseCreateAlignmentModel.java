@@ -15,68 +15,67 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Objects;
-import org.killbill.billing.catalog.api.BillingPeriod;
-import org.killbill.billing.catalog.api.PlanAlignmentCreate;
-import org.killbill.billing.catalog.api.PriceList;
-import org.killbill.billing.catalog.api.Product;
-import org.killbill.billing.catalog.api.ProductCategory;
-import org.killbill.billing.catalog.api.StaticCatalog;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.killbill.billing.catalog.api.rules.boilerplate.CaseCreateAlignmentImp;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Objects;
 
-@JsonDeserialize( builder = CaseCreateAlignmentModel.Builder.class )
+@JsonDeserialize(builder = CaseCreateAlignmentModel.Builder.class)
 public class CaseCreateAlignmentModel extends CaseCreateAlignmentImp {
 
-    public CaseCreateAlignmentModel() { }
+    public CaseCreateAlignmentModel() {
+    }
+
     public CaseCreateAlignmentModel(final CaseCreateAlignmentModel that) {
         super(that);
     }
+
     protected CaseCreateAlignmentModel(final CaseCreateAlignmentModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final CaseCreateAlignmentModel that = (CaseCreateAlignmentModel) o;
-        if( !Objects.equals(this.billingPeriod, that.billingPeriod) ) {
+        if (!Objects.equals(this.billingPeriod, that.billingPeriod)) {
             return false;
         }
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
-        if( !Objects.equals(this.planAlignmentCreate, that.planAlignmentCreate) ) {
+        if (!Objects.equals(this.planAlignmentCreate, that.planAlignmentCreate)) {
             return false;
         }
-        if( !Safe.equals(this.priceList, that.priceList) ) {
+        if (!Safe.equals(this.priceList, that.priceList)) {
             return false;
         }
-        if( !Safe.equals(this.product, that.product) ) {
+        if (!Safe.equals(this.product, that.product)) {
             return false;
         }
-        if( !Objects.equals(this.productCategory, that.productCategory) ) {
+        if (!Objects.equals(this.productCategory, that.productCategory)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(this.billingPeriod);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
-        result = ( 31 * result ) + Objects.hashCode(this.planAlignmentCreate);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.priceList));
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.product));
-        result = ( 31 * result ) + Objects.hashCode(this.productCategory);
+        result = (31 * result) + Objects.hashCode(this.billingPeriod);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.planAlignmentCreate);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.priceList));
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.product));
+        result = (31 * result) + Objects.hashCode(this.productCategory);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -98,17 +97,21 @@ public class CaseCreateAlignmentModel extends CaseCreateAlignmentImp {
 
 
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends CaseCreateAlignmentModel.Builder<T>> 
-        extends CaseCreateAlignmentImp.Builder<T> {
+    public static class Builder<T extends CaseCreateAlignmentModel.Builder<T>>
+            extends CaseCreateAlignmentImp.Builder<T> {
 
-        public Builder(){}
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public CaseCreateAlignmentModel build() {
             return new CaseCreateAlignmentModel(validate());

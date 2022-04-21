@@ -15,72 +15,77 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.plugin;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.plugin.catalog.test.models.plugin.boilerplate.StandalonePluginCatalogImp;
 
-@JsonDeserialize( builder = StandalonePluginCatalogModel.Builder.class )
+import java.util.Objects;
+
+@JsonDeserialize(builder = StandalonePluginCatalogModel.Builder.class)
 public class StandalonePluginCatalogModel extends StandalonePluginCatalogImp {
 
-    public StandalonePluginCatalogModel() { }
+    public StandalonePluginCatalogModel() {
+    }
+
     public StandalonePluginCatalogModel(final StandalonePluginCatalogModel that) {
         super(that);
     }
+
     protected StandalonePluginCatalogModel(final StandalonePluginCatalogModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final StandalonePluginCatalogModel that = (StandalonePluginCatalogModel) o;
-        if( !Objects.equals(this.childrenPriceList, that.childrenPriceList) ) {
+        if (!Objects.equals(this.childrenPriceList, that.childrenPriceList)) {
             return false;
         }
-        if( !Objects.equals(this.currencies, that.currencies) ) {
+        if (!Objects.equals(this.currencies, that.currencies)) {
             return false;
         }
-        if( !Objects.equals(this.defaultPriceList, that.defaultPriceList) ) {
+        if (!Objects.equals(this.defaultPriceList, that.defaultPriceList)) {
             return false;
         }
-        if( ( this.effectiveDate != null ) ? ( 0 != this.effectiveDate.compareTo(that.effectiveDate) ) : ( that.effectiveDate != null ) ) {
+        if ((this.effectiveDate != null) ? (0 != this.effectiveDate.compareTo(that.effectiveDate)) : (that.effectiveDate != null)) {
             return false;
         }
-        if( !Objects.equals(this.planRules, that.planRules) ) {
+        if (!Objects.equals(this.planRules, that.planRules)) {
             return false;
         }
-        if( !Objects.equals(this.plans, that.plans) ) {
+        if (!Objects.equals(this.plans, that.plans)) {
             return false;
         }
-        if( !Objects.equals(this.products, that.products) ) {
+        if (!Objects.equals(this.products, that.products)) {
             return false;
         }
-        if( !Objects.equals(this.units, that.units) ) {
+        if (!Objects.equals(this.units, that.units)) {
             return false;
         }
         return true;
     }
 
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends StandalonePluginCatalogModel.Builder<T>> 
-        extends StandalonePluginCatalogImp.Builder<T> {
+    public static class Builder<T extends StandalonePluginCatalogModel.Builder<T>>
+            extends StandalonePluginCatalogImp.Builder<T> {
 
-        public Builder(){}
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public StandalonePluginCatalogModel build() {
             return new StandalonePluginCatalogModel(this.validate());

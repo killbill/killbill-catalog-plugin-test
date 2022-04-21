@@ -15,88 +15,87 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.BillingPeriod;
-import org.killbill.billing.catalog.api.PhaseType;
-import org.killbill.billing.catalog.api.PlanAlignmentChange;
-import org.killbill.billing.catalog.api.PriceList;
-import org.killbill.billing.catalog.api.Product;
-import org.killbill.billing.catalog.api.ProductCategory;
-import org.killbill.billing.catalog.api.StaticCatalog;
 import org.killbill.billing.catalog.api.rules.boilerplate.CaseChangePlanAlignmentImp;
 
-@JsonDeserialize( builder = CaseChangePlanAlignmentModel.Builder.class )
+import java.util.Objects;
+
+@JsonDeserialize(builder = CaseChangePlanAlignmentModel.Builder.class)
 public class CaseChangePlanAlignmentModel extends CaseChangePlanAlignmentImp {
 
-    public CaseChangePlanAlignmentModel() { }
+    public CaseChangePlanAlignmentModel() {
+    }
+
     public CaseChangePlanAlignmentModel(final CaseChangePlanAlignmentModel that) {
         super(that);
     }
+
     protected CaseChangePlanAlignmentModel(final CaseChangePlanAlignmentModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final CaseChangePlanAlignmentModel that = (CaseChangePlanAlignmentModel) o;
-        if( !Objects.equals(this.alignment, that.alignment) ) {
+        if (!Objects.equals(this.alignment, that.alignment)) {
             return false;
         }
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
-        if( !Objects.equals(this.fromBillingPeriod, that.fromBillingPeriod) ) {
+        if (!Objects.equals(this.fromBillingPeriod, that.fromBillingPeriod)) {
             return false;
         }
-        if( !Safe.equals(this.fromPriceList, that.fromPriceList) ) {
+        if (!Safe.equals(this.fromPriceList, that.fromPriceList)) {
             return false;
         }
-        if( !Safe.equals(this.fromProduct, that.fromProduct) ) {
+        if (!Safe.equals(this.fromProduct, that.fromProduct)) {
             return false;
         }
-        if( !Objects.equals(this.fromProductCategory, that.fromProductCategory) ) {
+        if (!Objects.equals(this.fromProductCategory, that.fromProductCategory)) {
             return false;
         }
-        if( !Objects.equals(this.phaseType, that.phaseType) ) {
+        if (!Objects.equals(this.phaseType, that.phaseType)) {
             return false;
         }
-        if( !Objects.equals(this.toBillingPeriod, that.toBillingPeriod) ) {
+        if (!Objects.equals(this.toBillingPeriod, that.toBillingPeriod)) {
             return false;
         }
-        if( !Safe.equals(this.toPriceList, that.toPriceList) ) {
+        if (!Safe.equals(this.toPriceList, that.toPriceList)) {
             return false;
         }
-        if( !Safe.equals(this.toProduct, that.toProduct) ) {
+        if (!Safe.equals(this.toProduct, that.toProduct)) {
             return false;
         }
-        if( !Objects.equals(this.toProductCategory, that.toProductCategory) ) {
+        if (!Objects.equals(this.toProductCategory, that.toProductCategory)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(this.alignment);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
-        result = ( 31 * result ) + Objects.hashCode(this.fromBillingPeriod);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.fromPriceList));
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.fromProduct));
-        result = ( 31 * result ) + Objects.hashCode(this.fromProductCategory);
-        result = ( 31 * result ) + Objects.hashCode(this.phaseType);
-        result = ( 31 * result ) + Objects.hashCode(this.toBillingPeriod);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.toPriceList));
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.toProduct));
-        result = ( 31 * result ) + Objects.hashCode(this.toProductCategory);
+        result = (31 * result) + Objects.hashCode(this.alignment);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.fromBillingPeriod);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.fromPriceList));
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.fromProduct));
+        result = (31 * result) + Objects.hashCode(this.fromProductCategory);
+        result = (31 * result) + Objects.hashCode(this.phaseType);
+        result = (31 * result) + Objects.hashCode(this.toBillingPeriod);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.toPriceList));
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.toProduct));
+        result = (31 * result) + Objects.hashCode(this.toProductCategory);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -128,17 +127,21 @@ public class CaseChangePlanAlignmentModel extends CaseChangePlanAlignmentImp {
 
 
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends CaseChangePlanAlignmentModel.Builder<T>> 
-        extends CaseChangePlanAlignmentImp.Builder<T> {
+    public static class Builder<T extends CaseChangePlanAlignmentModel.Builder<T>>
+            extends CaseChangePlanAlignmentImp.Builder<T> {
 
-        public Builder(){}
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public CaseChangePlanAlignmentModel build() {
             return new CaseChangePlanAlignmentModel(validate());

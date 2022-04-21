@@ -15,86 +15,91 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Usage;
 import org.killbill.billing.catalog.api.boilerplate.UsageImp;
 
-@JsonDeserialize( builder = UsageModel.Builder.class )
+import java.util.Arrays;
+import java.util.Objects;
+
+@JsonDeserialize(builder = UsageModel.Builder.class)
 public class UsageModel extends UsageImp {
     public UsageModel() {
     }
-    public UsageModel(final  UsageModel that) {
+
+    public UsageModel(final UsageModel that) {
         super(that);
     }
+
     protected UsageModel(final UsageModel.Builder<?> builder) {
         super(builder);
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final UsageModel that = (UsageModel) o;
-        if( !Objects.equals(this.billingMode, that.billingMode) ) {
+        if (!Objects.equals(this.billingMode, that.billingMode)) {
             return false;
         }
-        if( !Objects.equals(this.billingPeriod, that.billingPeriod) ) {
+        if (!Objects.equals(this.billingPeriod, that.billingPeriod)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.blocks, that.blocks) ) {
+        if (!Arrays.deepEquals(this.blocks, that.blocks)) {
             return false;
         }
-        if( !Safe.equals(this.catalog, that.catalog) ) {
+        if (!Safe.equals(this.catalog, that.catalog)) {
             return false;
         }
-        if( !Objects.equals(this.fixedPrice, that.fixedPrice) ) {
+        if (!Objects.equals(this.fixedPrice, that.fixedPrice)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.limits, that.limits) ) {
+        if (!Arrays.deepEquals(this.limits, that.limits)) {
             return false;
         }
-        if( !Objects.equals(this.name, that.name) ) {
+        if (!Objects.equals(this.name, that.name)) {
             return false;
         }
-        if( !Objects.equals(this.prettyName, that.prettyName) ) {
+        if (!Objects.equals(this.prettyName, that.prettyName)) {
             return false;
         }
-        if( !Objects.equals(this.recurringPrice, that.recurringPrice) ) {
+        if (!Objects.equals(this.recurringPrice, that.recurringPrice)) {
             return false;
         }
-        if( !Objects.equals(this.tierBlockPolicy, that.tierBlockPolicy) ) {
+        if (!Objects.equals(this.tierBlockPolicy, that.tierBlockPolicy)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.tiers, that.tiers) ) {
+        if (!Arrays.deepEquals(this.tiers, that.tiers)) {
             return false;
         }
-        if( !Objects.equals(this.usageType, that.usageType) ) {
+        if (!Objects.equals(this.usageType, that.usageType)) {
             return false;
         }
         return true;
     }
+
     @Override
     public int hashCode() {
         int result = 1;
-        result = ( 31 * result ) + Objects.hashCode(this.billingMode);
-        result = ( 31 * result ) + Objects.hashCode(this.billingPeriod);
-        result = ( 31 * result ) + Arrays.deepHashCode(this.blocks);
-        result = ( 31 * result ) + Objects.hashCode(Safe.hashCode(this.catalog));
-        result = ( 31 * result ) + Objects.hashCode(this.fixedPrice);
-        result = ( 31 * result ) + Arrays.deepHashCode(this.limits);
-        result = ( 31 * result ) + Objects.hashCode(this.name);
-        result = ( 31 * result ) + Objects.hashCode(this.prettyName);
-        result = ( 31 * result ) + Objects.hashCode(this.recurringPrice);
-        result = ( 31 * result ) + Objects.hashCode(this.tierBlockPolicy);
-        result = ( 31 * result ) + Arrays.deepHashCode(this.tiers);
-        result = ( 31 * result ) + Objects.hashCode(this.usageType);
+        result = (31 * result) + Objects.hashCode(this.billingMode);
+        result = (31 * result) + Objects.hashCode(this.billingPeriod);
+        result = (31 * result) + Arrays.deepHashCode(this.blocks);
+        result = (31 * result) + Objects.hashCode(Safe.hashCode(this.catalog));
+        result = (31 * result) + Objects.hashCode(this.fixedPrice);
+        result = (31 * result) + Arrays.deepHashCode(this.limits);
+        result = (31 * result) + Objects.hashCode(this.name);
+        result = (31 * result) + Objects.hashCode(this.prettyName);
+        result = (31 * result) + Objects.hashCode(this.recurringPrice);
+        result = (31 * result) + Objects.hashCode(this.tierBlockPolicy);
+        result = (31 * result) + Arrays.deepHashCode(this.tiers);
+        result = (31 * result) + Objects.hashCode(this.usageType);
         return result;
     }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer(this.getClass().getSimpleName());
@@ -112,16 +117,16 @@ public class UsageModel extends UsageImp {
         sb.append("limits=").append(Arrays.toString(this.limits));
         sb.append(", ");
         sb.append("name=");
-        if( this.name == null ) {
+        if (this.name == null) {
             sb.append(this.name);
-        }else{
+        } else {
             sb.append("'").append(this.name).append("'");
         }
         sb.append(", ");
         sb.append("prettyName=");
-        if( this.prettyName == null ) {
+        if (this.prettyName == null) {
             sb.append(this.prettyName);
-        }else{
+        } else {
             sb.append("'").append(this.prettyName).append("'");
         }
         sb.append(", ");
@@ -135,17 +140,22 @@ public class UsageModel extends UsageImp {
         sb.append("}");
         return sb.toString();
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends UsageModel.Builder<T>> 
-        extends UsageImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends UsageModel.Builder<T>>
+            extends UsageImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public UsageModel build() {
             return new UsageModel(validate());

@@ -16,29 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.Unit;
 import org.killbill.billing.catalog.api.boilerplate.UnitImp;
 
-@JsonDeserialize( builder = UnitModel.Builder.class )
+@JsonDeserialize(builder = UnitModel.Builder.class)
 public class UnitModel extends UnitImp {
-    public UnitModel() { }
+    public UnitModel() {
+    }
+
     public UnitModel(final UnitModel that) {
         super(that);
     }
+
     protected UnitModel(final UnitModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends UnitModel.Builder<T>> 
-        extends UnitImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends UnitModel.Builder<T>>
+            extends UnitImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public UnitModel build() {
             return new UnitModel(validate());

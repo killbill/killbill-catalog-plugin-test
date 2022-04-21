@@ -15,88 +15,98 @@
  */
 package org.killbill.billing.plugin.catalog.test.models.api;
 
-import java.util.Arrays;
-import java.util.Objects;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.StaticCatalog;
 import org.killbill.billing.catalog.api.boilerplate.StaticCatalogImp;
 
-@JsonDeserialize( builder = StaticCatalogModel.Builder.class )
+import java.util.Arrays;
+import java.util.Objects;
+
+@JsonDeserialize(builder = StaticCatalogModel.Builder.class)
 public class StaticCatalogModel extends StaticCatalogImp {
-    public StaticCatalogModel() { }
+    public StaticCatalogModel() {
+    }
+
     public StaticCatalogModel(final StaticCatalogModel that) {
         super(that);
     }
+
     protected StaticCatalogModel(final StaticCatalogModel.Builder<?> builder) {
         super(builder);
     }
-    protected StaticCatalogModel(final StaticCatalogModel.Builder<?> builder, 
-            final PriceListSetModel.Builder<?> deferredPriceLists,
-            final PlanRulesModel.Builder<?> deferredPlanRules) 
-    {
+
+    protected StaticCatalogModel(final StaticCatalogModel.Builder<?> builder,
+                                 final PriceListSetModel.Builder<?> deferredPriceLists,
+                                 final PlanRulesModel.Builder<?> deferredPlanRules) {
         super(builder);
-        if(deferredPriceLists != null) {
+        if (deferredPriceLists != null) {
             this.priceLists = deferredPriceLists.withCatalog(this).build();
         }
-        if(deferredPlanRules != null) {
+        if (deferredPlanRules != null) {
             this.planRules = deferredPlanRules.withCatalog(this).build();
         }
     }
+
     @Override
     public boolean equals(final Object o) {
-        if ( this == o ) {
+        if (this == o) {
             return true;
         }
-        if ( ( o == null ) || ( this.getClass() != o.getClass() ) ) {
+        if ((o == null) || (this.getClass() != o.getClass())) {
             return false;
         }
         final StaticCatalogModel that = (StaticCatalogModel) o;
-        if( !Objects.equals(this.availableBasePlanListings, that.availableBasePlanListings) ) {
+        if (!Objects.equals(this.availableBasePlanListings, that.availableBasePlanListings)) {
             return false;
         }
-        if( !Objects.equals(this.catalogName, that.catalogName) ) {
+        if (!Objects.equals(this.catalogName, that.catalogName)) {
             return false;
         }
-        if( !Objects.equals(this.effectiveDate, that.effectiveDate) ) {
+        if (!Objects.equals(this.effectiveDate, that.effectiveDate)) {
             return false;
         }
-        if( !Objects.equals(this.planRules, that.planRules) ) {
+        if (!Objects.equals(this.planRules, that.planRules)) {
             return false;
         }
-        if( !Objects.equals(this.plans, that.plans) ) {
+        if (!Objects.equals(this.plans, that.plans)) {
             return false;
         }
-        if( !Objects.equals(this.priceLists, that.priceLists) ) {
+        if (!Objects.equals(this.priceLists, that.priceLists)) {
             return false;
         }
-        if( !Objects.equals(this.products, that.products) ) {
+        if (!Objects.equals(this.products, that.products)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.supportedCurrencies, that.supportedCurrencies) ) {
+        if (!Arrays.deepEquals(this.supportedCurrencies, that.supportedCurrencies)) {
             return false;
         }
-        if( !Arrays.deepEquals(this.units, that.units) ) {
+        if (!Arrays.deepEquals(this.units, that.units)) {
             return false;
         }
         return true;
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends StaticCatalogModel.Builder<T>> 
-        extends StaticCatalogImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends StaticCatalogModel.Builder<T>>
+            extends StaticCatalogImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         public StaticCatalogModel build() {
             return new StaticCatalogModel(validate());
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         public StaticCatalogModel build(final PriceListSetModel.Builder<?> pricelists,
-                final PlanRulesModel.Builder<?> planRules) {
+                                        final PlanRulesModel.Builder<?> planRules) {
             return new StaticCatalogModel(validate(), pricelists, planRules);
         }
     }

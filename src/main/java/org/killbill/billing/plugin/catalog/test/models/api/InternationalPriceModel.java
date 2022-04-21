@@ -16,29 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.InternationalPrice;
 import org.killbill.billing.catalog.api.boilerplate.InternationalPriceImp;
 
-@JsonDeserialize( builder = InternationalPriceModel.Builder.class )
+@JsonDeserialize(builder = InternationalPriceModel.Builder.class)
 public class InternationalPriceModel extends InternationalPriceImp {
-    public InternationalPriceModel() { }
+    public InternationalPriceModel() {
+    }
+
     public InternationalPriceModel(final InternationalPriceModel that) {
         super(that);
     }
+
     protected InternationalPriceModel(final InternationalPriceModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends InternationalPriceModel.Builder<T>> 
-        extends InternationalPriceImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends InternationalPriceModel.Builder<T>>
+            extends InternationalPriceImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public InternationalPriceModel build() {
             return new InternationalPriceModel(validate());

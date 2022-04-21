@@ -15,27 +15,25 @@
  */
 package org.killbill.billing.plugin.catalog.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.google.common.io.Resources;
+import org.joda.time.DateTime;
+import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
+import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
+import org.killbill.billing.payment.api.PluginProperty;
+import org.killbill.billing.plugin.catalog.test.json.VersionedPluginCatalogJsonDeserializer;
+import org.killbill.billing.util.callcontext.TenantContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
-import com.google.common.io.Resources;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
-import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
-import org.killbill.billing.payment.api.PluginProperty;
-import org.killbill.billing.util.callcontext.TenantContext;
-import org.killbill.billing.plugin.catalog.test.json.VersionedPluginCatalogJsonDeserializer;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
@@ -43,6 +41,7 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     private static final String DEFAULT_CATALOG_JSON = "WeaponsHire.pretty.json";
     private final ObjectMapper mapper;
+
     public CatalogTestPluginApi(final Properties properties) throws Exception {
         this.mapper = createMapper();
     }
@@ -65,10 +64,10 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     private VersionedPluginCatalog readCatalogFromResource() {
         VersionedPluginCatalog catalog = null;
-        try{
+        try {
             String json = loadResourceAsString(DEFAULT_CATALOG_JSON);
             catalog = mapper.readValue(json, VersionedPluginCatalog.class);
-        }catch(Exception e){
+        } catch (Exception e) {
         }
         return catalog;
     }
@@ -80,14 +79,14 @@ public class CatalogTestPluginApi implements CatalogPluginApi {
 
     @Override
     public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties,
-            TenantContext tenantContext) {
+                                                            TenantContext tenantContext) {
 
         System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId() + ", accountId = " + tenantContext
                 .getAccountId());
 
         VersionedPluginCatalog result = readCatalogFromResource();
 
-        if(result == null) {
+        if (result == null) {
             logger.error("CatalogTestPluginApi getVersionedPluginCatalog fails to read catalog from resources.. ");
         } else {
             logger.info("CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");

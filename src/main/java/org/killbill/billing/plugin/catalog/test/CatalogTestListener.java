@@ -27,8 +27,6 @@ import org.killbill.billing.osgi.libs.killbill.OSGIKillbillLogService;
 import org.killbill.billing.util.callcontext.boilerplate.TenantContextImp;
 import org.osgi.service.log.LogService;
 
-import java.util.UUID;
-
 
 public class CatalogTestListener implements OSGIKillbillEventDispatcher.OSGIKillbillEventHandler {
 
@@ -47,12 +45,12 @@ public class CatalogTestListener implements OSGIKillbillEventDispatcher.OSGIKill
                 " of type " + killbillEvent.getObjectType());
         try {
             final Account account = osgiKillbillAPI
-                .getAccountUserApi()
-                .getAccountById(killbillEvent.getAccountId(), 
-                        new TenantContextImp.Builder<>()
-                        .withAccountId(killbillEvent.getAccountId())
-                        .withTenantId(killbillEvent.getTenantId())
-                        .build());
+                    .getAccountUserApi()
+                    .getAccountById(killbillEvent.getAccountId(),
+                            new TenantContextImp.Builder<>()
+                                    .withAccountId(killbillEvent.getAccountId())
+                                    .withTenantId(killbillEvent.getTenantId())
+                                    .build());
             logService.log(LogService.LOG_INFO, "Account information: " + account);
         } catch (final AccountApiException e) {
             logService.log(LogService.LOG_WARNING, "Unable to find account", e);

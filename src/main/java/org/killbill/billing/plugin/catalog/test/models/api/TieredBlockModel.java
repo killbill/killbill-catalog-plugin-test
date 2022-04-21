@@ -16,29 +16,36 @@
 package org.killbill.billing.plugin.catalog.test.models.api;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.killbill.billing.catalog.api.TieredBlock;
 import org.killbill.billing.catalog.api.boilerplate.TieredBlockImp;
 
-@JsonDeserialize( builder = TieredBlockModel.Builder.class )
+@JsonDeserialize(builder = TieredBlockModel.Builder.class)
 public class TieredBlockModel extends TieredBlockImp {
-    public TieredBlockModel() { }
+    public TieredBlockModel() {
+    }
+
     public TieredBlockModel(final TieredBlockModel that) {
         super(that);
     }
+
     protected TieredBlockModel(final TieredBlockModel.Builder<?> builder) {
         super(builder);
     }
+
     @SuppressWarnings("unchecked")
-    public static class Builder<T extends TieredBlockModel.Builder<T>> 
-        extends TieredBlockImp.Builder<T> {
-        public Builder() { }
+    public static class Builder<T extends TieredBlockModel.Builder<T>>
+            extends TieredBlockImp.Builder<T> {
+        public Builder() {
+        }
+
         public Builder(final Builder that) {
             super(that);
         }
+
         @Override
         protected Builder validate() {
             return this;
         }
+
         @Override
         public TieredBlockModel build() {
             return new TieredBlockModel(validate());
