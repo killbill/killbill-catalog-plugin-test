@@ -69,6 +69,10 @@
             <artifactId>killbill-platform-osgi-bundles-lib-slf4j-osgi</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.kill-bill.billing.plugin.java</groupId>
+            <artifactId>killbill-base-plugin</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
@@ -94,19 +98,20 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <!--
-        Added killbill-catalog and killbill-xmlloader to benefit from Catalog objects implementation
-         (only because the plugin is cheating is reading an existing xml configuration file).
-         In a real catalog plugin those would not be needed.
-        -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.kill-bill.billing</groupId>
             <artifactId>killbill-catalog</artifactId>
             <version>${killbill.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.kill-bill.commons</groupId>
-            <artifactId>killbill-xmlloader</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

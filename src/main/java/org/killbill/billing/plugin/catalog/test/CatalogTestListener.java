@@ -24,10 +24,9 @@ import org.killbill.billing.notification.plugin.api.ExtBusEvent;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillAPI;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillLogService;
-import org.killbill.billing.util.callcontext.TenantContext;
+import org.killbill.billing.util.callcontext.boilerplate.TenantContextImp;
 import org.osgi.service.log.LogService;
 
-import java.util.UUID;
 
 public class CatalogTestListener implements OSGIKillbillEventDispatcher.OSGIKillbillEventHandler {
 
@@ -45,31 +44,16 @@ public class CatalogTestListener implements OSGIKillbillEventDispatcher.OSGIKill
                 " for object id " + killbillEvent.getObjectId() +
                 " of type " + killbillEvent.getObjectType());
         try {
-            final Account account = osgiKillbillAPI.getAccountUserApi().getAccountById(killbillEvent.getAccountId(), new CatalogTestContext(killbillEvent.getAccountId(), killbillEvent.getTenantId()));
+            final Account account = osgiKillbillAPI
+                    .getAccountUserApi()
+                    .getAccountById(killbillEvent.getAccountId(),
+                            new TenantContextImp.Builder<>()
+                                    .withAccountId(killbillEvent.getAccountId())
+                                    .withTenantId(killbillEvent.getTenantId())
+                                    .build());
             logService.log(LogService.LOG_INFO, "Account information: " + account);
         } catch (final AccountApiException e) {
             logService.log(LogService.LOG_WARNING, "Unable to find account", e);
-        }
-    }
-
-    private static final class CatalogTestContext implements TenantContext {
-
-        private final UUID accountId;
-        private final UUID tenantId;
-
-        private CatalogTestContext(final UUID accountId, final UUID tenantId) {
-            this.accountId = accountId;
-            this.tenantId = tenantId;
-        }
-
-        @Override
-        public UUID getAccountId() {
-            return accountId;
-        }
-
-        @Override
-        public UUID getTenantId() {
-            return tenantId;
         }
     }
 }

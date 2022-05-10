@@ -18,8 +18,6 @@
 
 package org.killbill.billing.plugin.catalog.test;
 
-import java.util.Hashtable;
-
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.osgi.api.OSGIPluginProperties;
 import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
@@ -27,9 +25,11 @@ import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.log.LogService;
 
+import java.util.Hashtable;
+
 public class CatalogTestActivator extends KillbillActivatorBase {
 
-        public static final String PLUGIN_NAME = "killbill-catalog-test";
+    public static final String PLUGIN_NAME = "killbill-catalog-test";
 
     private OSGIKillbillEventDispatcher.OSGIKillbillEventHandler catalogTestListener;
 
@@ -57,7 +57,6 @@ public class CatalogTestActivator extends KillbillActivatorBase {
         catalogTestListener = new CatalogTestListener(logService, killbillAPI);
         dispatcher.registerEventHandlers(catalogTestListener);
     }
-
 
     private void registerCatalogPluginApi(final BundleContext context, final CatalogPluginApi api) {
         final Hashtable<String, String> props = new Hashtable<String, String>();
