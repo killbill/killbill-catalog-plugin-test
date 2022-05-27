@@ -24,37 +24,28 @@ import org.killbill.billing.account.api.AccountApiException;
 import org.killbill.billing.notification.plugin.api.ExtBusEvent;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillAPI;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
-import org.killbill.billing.osgi.libs.killbill.OSGIKillbillLogService;
 import org.killbill.billing.util.callcontext.boilerplate.TenantContextImp;
-import org.osgi.service.log.LogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class CatalogTestListener implements OSGIKillbillEventDispatcher.OSGIKillbillEventHandler {
 
-    private final LogService logService;
+    private final static Logger logger = LoggerFactory.getLogger(CatalogTestListener.class);
     private final OSGIKillbillAPI osgiKillbillAPI;
 
-    public CatalogTestListener(final OSGIKillbillLogService logService, final OSGIKillbillAPI killbillAPI) {
-        this.logService = logService;
+    public CatalogTestListener(final OSGIKillbillAPI killbillAPI) {
         this.osgiKillbillAPI = killbillAPI;
     }
 
     @Override
     public void handleKillbillEvent(final ExtBusEvent killbillEvent) {
-        logService.log(LogService.LOG_INFO, "Received event " + killbillEvent.getEventType() +
-                " for object id " + killbillEvent.getObjectId() +
-                " of type " + killbillEvent.getObjectType());
+        logger.info("Received event " + killbillEvent.getEventType() + " for object id " + killbillEvent.getObjectId() + " of type " + killbillEvent.getObjectType());
         try {
-            final Account account = osgiKillbillAPI
-                    .getAccountUserApi()
-                    .getAccountById(killbillEvent.getAccountId(),
-                            new TenantContextImp.Builder<>()
-                                    .withAccountId(killbillEvent.getAccountId())
-                                    .withTenantId(killbillEvent.getTenantId())
-                                    .build());
-            logService.log(LogService.LOG_INFO, "Account information: " + account);
+            final Account account = osgiKillbillAPI.getAccountUserApi().getAccountById(killbillEvent.getAccountId(), new TenantContextImp.Builder<>().withAccountId(killbillEvent.getAccountId()).withTenantId(killbillEvent.getTenantId()).build());
+            logger.info("Account information: " + account);
         } catch (final AccountApiException e) {
-            logService.log(LogService.LOG_WARNING, "Unable to find account", e);
+            logger.warn("Unable to find account", e);
         }
     }
 }

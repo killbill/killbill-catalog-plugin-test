@@ -23,6 +23,8 @@ import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.osgi.api.OSGIPluginProperties;
 import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
+import org.killbill.billing.plugin.api.notification.PluginConfigurationEventHandler;
+import org.killbill.billing.plugin.core.config.PluginEnvironmentConfig;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.log.LogService;
 
@@ -33,6 +35,7 @@ public class CatalogTestActivator extends KillbillActivatorBase {
     public static final String PLUGIN_NAME = "killbill-catalog-test";
 
     private OSGIKillbillEventDispatcher.OSGIKillbillEventHandler catalogTestListener;
+    private CatalogConfigurationHandler configurationHandler;
 
     @Override
     public void start(final BundleContext context) throws Exception {
@@ -40,23 +43,25 @@ public class CatalogTestActivator extends KillbillActivatorBase {
 
         logService.log(LogService.LOG_INFO, "Starting " + PLUGIN_NAME);
 
-        final CatalogPluginApi catalogPluginApi = new CatalogTestPluginApi(configProperties.getProperties());
+        final String region = PluginEnvironmentConfig.getRegion(configProperties.getProperties());
+        configurationHandler = new CatalogConfigurationHandler(region, PLUGIN_NAME, killbillAPI);
+
+        final CatalogPluginApi catalogPluginApi = new CatalogTestPluginApi(configurationHandler, killbillAPI);
         registerCatalogPluginApi(context, catalogPluginApi);
 
-        registerEventHandler();
+        registerEventHandlers();
     }
 
     @Override
     public void stop(final BundleContext context) throws Exception {
         super.stop(context);
-
-        // Do additional work on shutdown (optional)
+        dispatcher.unregisterAllHandlers();
     }
 
-    private void registerEventHandler() {
-        // Register an event listener (optional)
-        catalogTestListener = new CatalogTestListener(logService, killbillAPI);
-        dispatcher.registerEventHandlers(catalogTestListener);
+    private void registerEventHandlers() {
+        final PluginConfigurationEventHandler configHandler = new PluginConfigurationEventHandler(configurationHandler);
+        catalogTestListener = new CatalogTestListener(killbillAPI);
+        dispatcher.registerEventHandlers(configHandler, catalogTestListener);
     }
 
     private void registerCatalogPluginApi(final BundleContext context, final CatalogPluginApi api) {

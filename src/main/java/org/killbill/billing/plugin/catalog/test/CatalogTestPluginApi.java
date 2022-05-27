@@ -18,83 +18,146 @@
  */
 package org.killbill.billing.plugin.catalog.test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.google.common.io.Resources;
 import org.joda.time.DateTime;
+import org.killbill.billing.account.api.Account;
+import org.killbill.billing.account.api.AccountApiException;
+import org.killbill.billing.catalog.StandaloneCatalog;
+import org.killbill.billing.catalog.api.CatalogApiException;
+import org.killbill.billing.catalog.api.VersionedCatalog;
+import org.killbill.billing.catalog.io.VersionedCatalogLoader;
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
+import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
+import org.killbill.billing.osgi.libs.killbill.OSGIKillbillAPI;
 import org.killbill.billing.payment.api.PluginProperty;
-import org.killbill.billing.plugin.catalog.test.json.VersionedPluginCatalogJsonDeserializer;
+import org.killbill.billing.plugin.catalog.test.models.plugin.boilerplate.StandalonePluginCatalogImp;
+import org.killbill.billing.plugin.catalog.test.models.plugin.boilerplate.VersionedPluginCatalogImp;
 import org.killbill.billing.util.callcontext.TenantContext;
+import org.killbill.billing.util.callcontext.boilerplate.TenantContextImp;
+import org.killbill.billing.util.config.definition.CatalogConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
+import java.net.MalformedURLException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CatalogTestPluginApi implements CatalogPluginApi {
 
     private static final Logger logger = LoggerFactory.getLogger(CatalogTestPluginApi.class);
 
-    private static final String DEFAULT_CATALOG_JSON = "WeaponsHire.pretty.json";
-    private final ObjectMapper mapper;
+    private static final String CATALOG_DIR = "/tmp/accounts";
 
-    public CatalogTestPluginApi(final Properties properties) throws Exception {
-        this.mapper = createMapper();
+
+    private final OSGIKillbillAPI osgiKillbillAPI;
+
+    private final CatalogConfigurationHandler configHandler;
+
+    public CatalogTestPluginApi(final CatalogConfigurationHandler configHandler, final OSGIKillbillAPI osgiKillbillAPI) {
+        this.configHandler = configHandler;
+        this.osgiKillbillAPI = osgiKillbillAPI;
     }
 
-    private String loadResourceAsString(String path) throws IOException {
-        URL url = Resources.getResource(path);
-        return Resources.toString(url, StandardCharsets.UTF_8);
-    }
-
-    private ObjectMapper createMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
-        mapper.registerModule(new JodaModule());
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(VersionedPluginCatalog.class, new VersionedPluginCatalogJsonDeserializer());
-        mapper.registerModule(module);
-        return mapper;
-    }
-
-    private VersionedPluginCatalog readCatalogFromResource() {
-        VersionedPluginCatalog catalog = null;
-        try {
-            String json = loadResourceAsString(DEFAULT_CATALOG_JSON);
-            catalog = mapper.readValue(json, VersionedPluginCatalog.class);
-        } catch (Exception e) {
-        }
-        return catalog;
-    }
 
     @Override
-    public DateTime getLatestCatalogVersion(Iterable<PluginProperty> properties, TenantContext context) {
+    public DateTime getLatestCatalogVersion(final Iterable<PluginProperty> properties, final TenantContext context) {
         return null;
     }
 
-    @Override
-    public VersionedPluginCatalog getVersionedPluginCatalog(Iterable<PluginProperty> properties,
-                                                            TenantContext tenantContext) {
 
-        System.err.println("++++++++++++  FOUND TENANT " + tenantContext.getTenantId() + ", accountId = " + tenantContext
-                .getAccountId());
+    public VersionedPluginCatalog getVersionedPluginCatalog(final Iterable<PluginProperty> properties, final TenantContext tenantContext) {
 
-        VersionedPluginCatalog result = readCatalogFromResource();
+        final CatalogConfiguration config = configHandler.getConfigurable(tenantContext.getTenantId());
 
-        if (result == null) {
-            logger.error("CatalogTestPluginApi getVersionedPluginCatalog fails to read catalog from resources.. ");
-        } else {
-            logger.info("CatalogTestPluginApi getVersionedPluginCatalog returns result.. ");
+        final String catalogPath;
+        switch (config.getScheme()) {
+            case RESOURCE:
+                logger.info("Loading catalog from resource {}", config.getURI());
+                catalogPath = config.getURI().toString();
+                break;
+            case FILE_BASED:
+                catalogPath = config.isPerAccount() ?
+                        String.format("%s/%s", config.getURI().toString(), tenantContext.getAccountId()) : config.getURI().toString();
+                break;
+            default:
+                throw new RuntimeException(String.format("Invalid catalog config scheme %s", config.getScheme()));
         }
-        return result;
+
+        if (config.isPerAccount()) {
+            if (tenantContext.getAccountId() == null) {
+                // TODO throw
+                return null;
+            }
+
+            if (config.shouldValidateAccount()) {
+                try {
+                    checkAccount(tenantContext.getAccountId(), tenantContext.getTenantId());
+                } catch (final AccountApiException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        try {
+            return readCatalogFromPath(catalogPath);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (CatalogApiException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
+    VersionedPluginCatalog readCatalogFromPath(final String path) throws MalformedURLException, CatalogApiException {
+        final VersionedCatalogLoader loader = new VersionedCatalogLoader(getCatalogConfig(), null, null);
+        final VersionedCatalog tmp = loader.loadDefaultCatalog(path);
+        final Iterable<StandalonePluginCatalog> versions = toStandalonePluginCatalogs(tmp.getVersions().stream().map(v -> (StandaloneCatalog) v).collect(Collectors.toList()));
+
+        final VersionedPluginCatalogImp.Builder b = new VersionedPluginCatalogImp.Builder()
+                .withStandalonePluginCatalogs(versions);
+
+        return new VersionedPluginCatalogImp(b.build());
+    }
+
+
+
+    private Iterable<StandalonePluginCatalog> toStandalonePluginCatalogs(final List<StandaloneCatalog> input) {
+        return input.stream()
+                .map(i -> new StandalonePluginCatalogImp.Builder()
+                        .withEffectiveDate(new DateTime(i.getEffectiveDate()))
+                        .withUnits(Arrays.asList(i.getUnits()))
+                        .withCurrencies(Arrays.asList(i.getSupportedCurrencies()))
+                        .withProducts(i.getProducts())
+                        .withPlans(i.getPlans())
+                        .withPlanRules(i.getPlanRules())
+                        .withDefaultPriceList(i.getPriceLists().getDefaultPricelist())
+                        .withChildrenPriceList(Arrays.asList(i.getPriceLists().getChildPriceLists()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private Account checkAccount(final UUID accountId, final UUID tenantId) throws AccountApiException {
+        final TenantContextImp context = new TenantContextImp.Builder<>().withAccountId(accountId).withTenantId(tenantId).build();
+        final Account account = osgiKillbillAPI.getAccountUserApi().getAccountById(accountId, context);
+        return account;
+    }
+
+
+    CatalogConfig getCatalogConfig() {
+        return new CatalogConfig() {
+            @Override
+            public String getCatalogURI() {
+                return null;
+            }
+
+            @Override
+            public Integer getCatalogThreadNb() {
+                return 1;
+            }
+        };
+    }
+
 
 }
