@@ -33,7 +33,6 @@ public class CatalogActivator extends KillbillActivatorBase {
 
     public static final String PLUGIN_NAME = "killbill-catalog-test";
 
-    private OSGIKillbillEventDispatcher.OSGIKillbillEventHandler catalogTestListener;
     private CatalogConfigurationHandler configurationHandler;
 
     @Override
@@ -59,8 +58,7 @@ public class CatalogActivator extends KillbillActivatorBase {
 
     private void registerEventHandlers() {
         final PluginConfigurationEventHandler configHandler = new PluginConfigurationEventHandler(configurationHandler);
-        catalogTestListener = new CatalogListener(killbillAPI);
-        dispatcher.registerEventHandlers(configHandler, catalogTestListener);
+        dispatcher.registerEventHandlers(configHandler);
     }
 
     private void registerCatalogPluginApi(final BundleContext context, final org.killbill.billing.catalog.plugin.api.CatalogPluginApi api) {
