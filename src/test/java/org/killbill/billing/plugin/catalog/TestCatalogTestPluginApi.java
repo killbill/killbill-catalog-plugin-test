@@ -66,7 +66,7 @@ public class TestCatalogTestPluginApi {
         final CatalogConfigurationHandler configHandler = new CatalogConfigurationHandler("", CatalogActivator.PLUGIN_NAME, null);
         configHandler.setDefaultConfigurable(config);
 
-        final CatalogPluginApi api = new CatalogPluginApi(configHandler, null);
+        final CatalogPluginApiImpl api = new CatalogPluginApiImpl(configHandler, null);
 
         final TenantContext tenantContext = new TenantContextImp.Builder<>()
                 .withAccountId(accountId)
@@ -93,7 +93,7 @@ public class TestCatalogTestPluginApi {
         final CatalogConfigurationHandler configHandler = new CatalogConfigurationHandler("", CatalogActivator.PLUGIN_NAME, null);
         configHandler.setDefaultConfigurable(config);
 
-        final CatalogPluginApi api = new CatalogPluginApi(configHandler, null);
+        final CatalogPluginApiImpl api = new CatalogPluginApiImpl(configHandler, null);
 
         final TenantContext tenantContext = new TenantContextImp.Builder<>()
                 .withAccountId(accountId)

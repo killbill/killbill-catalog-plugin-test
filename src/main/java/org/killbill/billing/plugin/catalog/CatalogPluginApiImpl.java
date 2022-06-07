@@ -25,6 +25,7 @@ import org.killbill.billing.catalog.StandaloneCatalog;
 import org.killbill.billing.catalog.api.CatalogApiException;
 import org.killbill.billing.catalog.api.VersionedCatalog;
 import org.killbill.billing.catalog.io.VersionedCatalogLoader;
+import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.catalog.plugin.api.StandalonePluginCatalog;
 import org.killbill.billing.catalog.plugin.api.VersionedPluginCatalog;
 import org.killbill.billing.osgi.libs.killbill.OSGIKillbillAPI;
@@ -43,18 +44,16 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class CatalogPluginApi implements org.killbill.billing.catalog.plugin.api.CatalogPluginApi {
+public class CatalogPluginApiImpl implements CatalogPluginApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(CatalogPluginApi.class);
-
-    private static final String CATALOG_DIR = "/tmp/accounts";
+    private static final Logger logger = LoggerFactory.getLogger(CatalogPluginApiImpl.class);
 
 
     private final OSGIKillbillAPI osgiKillbillAPI;
 
     private final CatalogConfigurationHandler configHandler;
 
-    public CatalogPluginApi(final CatalogConfigurationHandler configHandler, final OSGIKillbillAPI osgiKillbillAPI) {
+    public CatalogPluginApiImpl(final CatalogConfigurationHandler configHandler, final OSGIKillbillAPI osgiKillbillAPI) {
         this.configHandler = configHandler;
         this.osgiKillbillAPI = osgiKillbillAPI;
     }

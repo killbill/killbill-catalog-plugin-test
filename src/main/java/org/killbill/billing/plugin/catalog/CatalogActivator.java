@@ -19,9 +19,9 @@
 
 package org.killbill.billing.plugin.catalog;
 
+import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
 import org.killbill.billing.osgi.api.OSGIPluginProperties;
 import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
-import org.killbill.billing.osgi.libs.killbill.OSGIKillbillEventDispatcher;
 import org.killbill.billing.plugin.api.notification.PluginConfigurationEventHandler;
 import org.killbill.billing.plugin.core.config.PluginEnvironmentConfig;
 import org.osgi.framework.BundleContext;
@@ -44,7 +44,7 @@ public class CatalogActivator extends KillbillActivatorBase {
         final String region = PluginEnvironmentConfig.getRegion(configProperties.getProperties());
         configurationHandler = new CatalogConfigurationHandler(region, PLUGIN_NAME, killbillAPI);
 
-        final org.killbill.billing.catalog.plugin.api.CatalogPluginApi catalogPluginApi = new CatalogPluginApi(configurationHandler, killbillAPI);
+        final CatalogPluginApi catalogPluginApi = new CatalogPluginApiImpl(configurationHandler, killbillAPI);
         registerCatalogPluginApi(context, catalogPluginApi);
 
         registerEventHandlers();
@@ -61,9 +61,9 @@ public class CatalogActivator extends KillbillActivatorBase {
         dispatcher.registerEventHandlers(configHandler);
     }
 
-    private void registerCatalogPluginApi(final BundleContext context, final org.killbill.billing.catalog.plugin.api.CatalogPluginApi api) {
+    private void registerCatalogPluginApi(final BundleContext context, final CatalogPluginApi api) {
         final Hashtable<String, String> props = new Hashtable<String, String>();
         props.put(OSGIPluginProperties.PLUGIN_NAME_PROP, PLUGIN_NAME);
-        registrar.registerService(context, org.killbill.billing.catalog.plugin.api.CatalogPluginApi.class, api, props);
+        registrar.registerService(context, CatalogPluginApi.class, api, props);
     }
 }
