@@ -43,7 +43,7 @@
     <properties>
         <check.skip-spotbugs>true</check.skip-spotbugs>
         <killbill-base-plugin.version>4.2.18</killbill-base-plugin.version>
-        <killbill.version>0.22.29</killbill.version>
+        <killbill.version>0.22.30</killbill.version>
         <osgi.private>org.killbill.billing.plugin.catalog.*</osgi.private>
     </properties>
     <dependencies>
