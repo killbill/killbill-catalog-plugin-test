@@ -25,11 +25,14 @@ import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
 import org.killbill.billing.plugin.api.notification.PluginConfigurationEventHandler;
 import org.killbill.billing.plugin.core.config.PluginEnvironmentConfig;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.log.LogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
 
 public class CatalogActivator extends KillbillActivatorBase {
+
+    private final Logger logger = LoggerFactory.getLogger(CatalogActivator.class);
 
     public static final String PLUGIN_NAME = "killbill-catalog-test";
 
@@ -39,7 +42,7 @@ public class CatalogActivator extends KillbillActivatorBase {
     public void start(final BundleContext context) throws Exception {
         super.start(context);
 
-        logService.log(LogService.LOG_INFO, "Starting " + PLUGIN_NAME);
+        logger.info("Starting {}", PLUGIN_NAME);
 
         final String region = PluginEnvironmentConfig.getRegion(configProperties.getProperties());
         configurationHandler = new CatalogConfigurationHandler(region, PLUGIN_NAME, killbillAPI);
