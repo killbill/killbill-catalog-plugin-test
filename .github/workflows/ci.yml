@@ -2,15 +2,17 @@ name: ci
 
 on:
   - push
+  - pull_request
   - workflow_dispatch
-
-env:
-  MAVEN_FLAGS: "-B --no-transfer-progress"
-  MAVEN_OPTS: "-Xmx2G -XX:+ExitOnOutOfMemoryError -Dmaven.wagon.rto=60000 -Dmaven.wagon.httpconnectionManager.ttlSeconds=25 -Dmaven.wagon.http.retryHandler.count=3"
 
 jobs:
   ci:
     uses: killbill/gh-actions-shared/.github/workflows/ci.yml@main
+    
+integration_test:
+    uses: killbill/gh-actions-shared/.github/workflows/integration_test.yml@main
     with:
-      test-profile-matrix: '[ "travis" ]'
-      jdk-matrix: '[ "8", "11" ]'
+      plugin_name: 'catalog-plugin-test'
+      integration_tests_goal: 'test:plugins:catalog-plugin-test'
+      integration_tests_ref: 'refs/heads/work-for-release-0.23.x'    
+
