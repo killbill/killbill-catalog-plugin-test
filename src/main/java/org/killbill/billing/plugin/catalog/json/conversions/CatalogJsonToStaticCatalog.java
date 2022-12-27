@@ -391,12 +391,10 @@ public class CatalogJsonToStaticCatalog implements Function<CatalogJson, StaticC
     private Limit toLimit(final Map<String, Unit> units, final CatalogJson.LimitJson input) {
         Limit output = null;
         if (input != null) {
-            Double max = Utils.toDouble(input.getMax());
-            Double min = Utils.toDouble(input.getMin());
             Unit unit = lookupUnit(units, input.getUnit());
             output = new LimitModel.Builder<>()
-                    .withMax(max)
-                    .withMin(min)
+                    .withMax(new BigDecimal(input.getMax()))
+                    .withMin(new BigDecimal(input.getMin()))
                     .withUnit(unit)
                     .build();
         }
@@ -416,18 +414,14 @@ public class CatalogJsonToStaticCatalog implements Function<CatalogJson, StaticC
     private TieredBlock toTieredBlock(final Map<String, Unit> units, final CatalogJson.TieredBlockJson input) {
         TieredBlock output = null;
         if (input != null) {
-            Double max = Utils.toDouble(input.getMax());
-            Double minTopUpCredit = missingTieredBlockMinTopUpCredit;
             InternationalPrice price = toInternationalPrice(input.getPrices());
-            Double size = Utils.toDouble(input.getSize());
-            BlockType type = missingTieredBlockType;
             Unit unit = lookupUnit(units, input.getUnit());
             output = new TieredBlockModel.Builder<>()
-                    .withMax(max)
-                    .withMinTopUpCredit(minTopUpCredit)
+                    .withMax(new BigDecimal(input.getMax()))
+                    .withMinTopUpCredit(BigDecimal.valueOf((missingTieredBlockMinTopUpCredit == null ? 0d : missingTieredBlockMinTopUpCredit)))
                     .withPrice(price)
-                    .withSize(size)
-                    .withType(type)
+                    .withSize(new BigDecimal(input.getSize()))
+                    .withType(missingTieredBlockType)
                     .withUnit(unit)
                     .build();
         }
