@@ -26,7 +26,7 @@
     </parent>
     <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
     <artifactId>catalog-test</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>Test Plugin for CatalogPluginApi</name>
     <description>Test Plugin for CatalogPluginApi</description>
@@ -43,6 +43,11 @@
     <properties>
         <check.skip-spotbugs>true</check.skip-spotbugs>
         <killbill.version>0.24.0</killbill.version>
+        <osgi.export>org.killbill.xmlloader;version=0.0.0,
+            javax.xml.bind;version=0.0.0,
+            org.killbill.commons.concurrent;version=0.0.0,
+            org.killbill.commons.utils;version=0.0.0,
+            org.killbill.commons.utils.io;version=0.0.0</osgi.export>
         <osgi.private>org.killbill.billing.plugin.catalog.*</osgi.private>
     </properties>
     <dependencies>
