@@ -32,7 +32,7 @@ services:
     depends_on:
       - db
     volumes:
-      - /var/tmp/bundles/plugins/java/killbill-catalog-test:/var/lib/killbill/bundles/plugins/java/killbill-catalog-test
+      - /var/tmp/bundles/plugins/java/catalog-test-plugin:/var/lib/killbill/bundles/plugins/java/catalog-test-plugin
       - /var/tmp/tomcat_logs:/var/lib/tomcat/logs
   db:
     network_mode: host
