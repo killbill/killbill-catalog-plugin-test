@@ -14,4 +14,4 @@ jobs:
     with:
       plugin_name: 'catalog-test'
       integration_tests_goal: 'test:plugins:catalog-test'
-      integration_tests_ref: 'refs/heads/master'    
+      integration_tests_ref: 'refs/heads/with-test-for-catalog-plugin-test'    
