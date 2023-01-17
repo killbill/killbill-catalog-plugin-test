@@ -43,13 +43,13 @@
     <properties>
         <check.skip-spotbugs>true</check.skip-spotbugs>
         <killbill.version>0.24.0</killbill.version>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <osgi.export>org.killbill.xmlloader;version=0.0.0,
             javax.xml.bind;version=0.0.0,
             org.killbill.commons.concurrent;version=0.0.0,
             org.killbill.commons.utils;version=0.0.0,
             org.killbill.commons.utils.io;version=0.0.0,
-            org.killbill.billing.util.config.definition;version=0.0.0
-        </osgi.export>
+            org.killbill.billing.util.config.definition;version=0.0.0</osgi.export>
         <osgi.private>org.killbill.billing.plugin.catalog.*</osgi.private>
     </properties>
     <dependencies>
