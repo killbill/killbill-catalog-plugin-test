@@ -20,15 +20,21 @@
 package org.killbill.billing.plugin.catalog;
 
 import org.killbill.billing.catalog.plugin.api.CatalogPluginApi;
+import org.killbill.billing.osgi.api.Healthcheck;
 import org.killbill.billing.osgi.api.OSGIPluginProperties;
 import org.killbill.billing.osgi.libs.killbill.KillbillActivatorBase;
 import org.killbill.billing.plugin.api.notification.PluginConfigurationEventHandler;
 import org.killbill.billing.plugin.core.config.PluginEnvironmentConfig;
+import org.killbill.billing.plugin.core.resources.jooby.PluginApp;
+import org.killbill.billing.plugin.core.resources.jooby.PluginAppBuilder;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
+
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServlet;
 
 public class CatalogActivator extends KillbillActivatorBase {
 
@@ -50,6 +56,21 @@ public class CatalogActivator extends KillbillActivatorBase {
         final CatalogPluginApi catalogPluginApi = new CatalogPluginApiImpl(configurationHandler, killbillAPI);
         registerCatalogPluginApi(context, catalogPluginApi);
 
+        // Expose a healthcheck (optional), so other plugins can check on the plugin status
+        final Healthcheck healthcheck = new CatalogTestHealthcheck();
+        registerHealthcheck(context, healthcheck);
+
+        // Register a servlet (optional)
+        final PluginApp pluginApp = new PluginAppBuilder(PLUGIN_NAME,
+                                                         killbillAPI,
+                                                         dataSource,
+                                                         super.clock,
+                                                         configProperties).withRouteClass(CatalogTestHealthcheckServlet.class)
+                                                                          .withService(healthcheck)
+                                                                          .build();
+        final HttpServlet httpServlet = PluginApp.createServlet(pluginApp);
+        registerServlet(context, httpServlet);
+
         registerEventHandlers();
     }
 
@@ -68,5 +89,17 @@ public class CatalogActivator extends KillbillActivatorBase {
         final Hashtable<String, String> props = new Hashtable<String, String>();
         props.put(OSGIPluginProperties.PLUGIN_NAME_PROP, PLUGIN_NAME);
         registrar.registerService(context, CatalogPluginApi.class, api, props);
+    }
+
+    private void registerServlet(final BundleContext context, final Servlet servlet) {
+        final Hashtable<String, String> props = new Hashtable<String, String>();
+        props.put(OSGIPluginProperties.PLUGIN_NAME_PROP, PLUGIN_NAME);
+        registrar.registerService(context, Servlet.class, servlet, props);
+    }
+
+    private void registerHealthcheck(final BundleContext context, final Healthcheck healthcheck) {
+        final Hashtable<String, String> props = new Hashtable<String, String>();
+        props.put(OSGIPluginProperties.PLUGIN_NAME_PROP, PLUGIN_NAME);
+        registrar.registerService(context, Healthcheck.class, healthcheck, props);
     }
 }
