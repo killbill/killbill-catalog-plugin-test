@@ -10,8 +10,8 @@ jobs:
     uses: killbill/gh-actions-shared/.github/workflows/ci.yml@main  
 
   integration_test:
-    uses: killbill/gh-actions-shared/.github/workflows/integration_test.yml@debug-catalog-plugin-test-issue
+    uses: killbill/gh-actions-shared/.github/workflows/integration_test.yml@main
     with:
       plugin_name: 'catalog-test'
       integration_tests_goal: 'test:plugins:catalog-test'
-      integration_tests_ref: 'refs/heads/with-test-for-catalog-plugin-test'    
+      integration_tests_ref: 'refs/heads/master'    
