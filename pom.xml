@@ -47,7 +47,9 @@
             javax.xml.bind;version=0.0.0,
             org.killbill.commons.concurrent;version=0.0.0,
             org.killbill.commons.utils;version=0.0.0,
-            org.killbill.commons.utils.io;version=0.0.0</osgi.export>
+            org.killbill.commons.utils.io;version=0.0.0,
+            org.killbill.billing.util.config.definition;version=0.0.0
+        </osgi.export>
         <osgi.private>org.killbill.billing.plugin.catalog.*</osgi.private>
     </properties>
     <dependencies>
