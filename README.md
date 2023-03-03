@@ -28,6 +28,12 @@ Kill Bill compatibility
 There is no requirement aside from running Kill Bill.
 Based on the configuration, the plugin may expect specific resources to be available or access to file system to load some catalog versions.
 
+## Build
+
+```
+mvn clean install -DskipTests
+```
+
 ## Installation
 
 Locally:
