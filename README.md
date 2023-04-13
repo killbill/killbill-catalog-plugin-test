@@ -1,4 +1,5 @@
 # killbill-catalog-test
+![Maven Central](https://img.shields.io/maven-central/v/org.kill-bill.billing.plugin.java.catalog/catalog-test-plugin?color=blue&label=Maven%20Central)
 
 This repo is intended as a starting point to build a custom catalog plugin.
 
@@ -25,8 +26,13 @@ Kill Bill compatibility
 
 ## Requirements
 
-There is no requirement aside from running Kill Bill.
-Based on the configuration, the plugin may expect specific resources to be available or access to file system to load some catalog versions.
+There is no requirement aside from running Kill Bill.Based on the configuration, the plugin may expect specific resources to be available or access to file system to load some catalog versions.
+
+## Build
+
+```
+mvn clean install -DskipTests
+```
 
 ## Installation
 
@@ -36,22 +42,15 @@ Locally:
 kpm install_java_plugin kb:catalog --from-source-file target/catalog-test-*-SNAPSHOT.jar  --destination /var/tmp/bundles
 ```
 
-## Code Organization
+## Use Cases
 
-The plugin depends on the `killbill-base-plugin` like most Kill Bill plugins. See this [repo](https://github.com/killbill/killbill-plugin-framework-java).
-In particular, it leverages some of the POJOs (builders) available from this base plugin (`boilerplate/*Imp.java`).
+The main use case for a catalog plugin is to interact with your catalog service existing outside of Kill Bill and map the results into a format compatible with the Kill Bill abstraction by implementing the CatalogPluginApi.
 
-Additional POJOs for the catalog have also been implemented on top of these base POJOs in order to allow for proper deserialization using JSON (`models/*Model`)
-However, in order to deserialize XML input files, we have also imported the `killbill-catalog` jar.
+The plugin allows for a flexible per-tenant YAML based configuration to achieve the below :
+* Specify an input XML-based resource file (`resources/Weapons.Hire.xml`) to be used as the catalog.
+* Specify a file-system based directory to provide the XML versions. This option also allows to serve per-account catalogs.
 
-TODO: Enhance existing models to also support XML deserialization and remove the `killbill-catalog` dependency.
-
-# Use Cases
-
-The plugin allows for a flexible per-tenant YAML based configuration to either:
-* Specify an input XML-based resource file (`resources/Weapons.Hire.xml`) to be used as the catalog
-* Specify a file-system based directory to provide the XML versions. This option also allow to serve per-account catalogs.
-
+## Configuration Instructions
 
 Assuming a proper `yaml` configuration, one can configure the plugin using:
 
@@ -67,11 +66,7 @@ curl -v \
 http://127.0.0.1:8080/1.0/kb/tenants/uploadPluginConfig/killbill-catalog-test
 ```
 
-## Resource
-
-If you just want to try out the plugin, the easiest is to use the existing `WeaponsHire.xml` resources being shipped in the plugin.
-
-The YAML configuration would look like the following:
+* If you are looking to specify an input XML-based resource file to be used as the catalog, then the YAML configuration would look like :
 
 ```
 !!org.killbill.billing.plugin.catalog.CatalogYAMLConfiguration
@@ -80,9 +75,7 @@ The YAML configuration would look like the following:
   accountCatalog: false
 ```
 
-## Filesystem Based Catalog
-
-In order to serve a real XML-based catalog, the configuration would look like the following:
+* If you are looking to specify file-system based directory to provide the XML versions which can be used at serve account-level catalogs, then the YAML configuration would look like :
 
 ```
 !!org.killbill.billing.plugin.catalog.CatalogYAMLConfiguration
@@ -105,3 +98,10 @@ When using the `accountCatalog=true`, the directory structure should look like t
 ```
 
 The config `validateAccount` specifies whether plugin should check for the existence of the account prior serving the catalog.
+
+## Testing
+
+* Build and Install the plugin as mentioned in the above instructions.
+* If you want to test the existing catalog service,then the easiest way is to specify the existing `WeaponsHire.xml` as described in the above configuration section. The same will be visible in KAUI as well as through API.
+* If you want to test the file system based per-account level catalog, then kindly specify the catalog for the account using the directory structure explained in the above configuration section. The same will be useable for any subscription actions on the account. 
+
