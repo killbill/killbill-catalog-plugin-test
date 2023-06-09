@@ -24,7 +24,7 @@
         <artifactId>killbill-oss-parent</artifactId>
         <version>0.146.6</version>
     </parent>
-    <groupId>org.kill-bill.billing.plugin.java.catalog</groupId>
+    <groupId>org.kill-bill.billing.plugin.java</groupId>
     <artifactId>catalog-test-plugin</artifactId>
     <version>0.5.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
