@@ -1,5 +1,5 @@
 # killbill-catalog-test
-![Maven Central](https://img.shields.io/maven-central/v/org.kill-bill.billing.plugin.java.catalog/catalog-test-plugin?color=blue&label=Maven%20Central)
+![Maven Central](https://img.shields.io/maven-central/v/org.kill-bill.billing.plugin.java/catalog-test-plugin?color=blue&label=Maven%20Central)
 
 This repo is intended as a starting point to build a custom catalog plugin.
 
