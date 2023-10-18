@@ -109,7 +109,7 @@ public class CatalogActivator extends KillbillActivatorBase {
         final String raw = String.format("!!org.killbill.billing.plugin.catalog.CatalogYAMLConfiguration\n" +
                 "  uri: %s\n" +
                 "  validateAccount: false\n" +
-                "  accountCatalog: true", uri);
+                "  accountCatalog: false", uri);
         return CatalogConfigurationHandler.fromYAML(raw);
     }
 }
