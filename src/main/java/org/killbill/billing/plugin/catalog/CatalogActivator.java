@@ -52,6 +52,8 @@ public class CatalogActivator extends KillbillActivatorBase {
 
         final String region = PluginEnvironmentConfig.getRegion(configProperties.getProperties());
         configurationHandler = new CatalogConfigurationHandler(region, PLUGIN_NAME, killbillAPI);
+        final CatalogConfiguration defaultConfiguration = createCatalogConfig("WeaponsHire.xml");
+        configurationHandler.setDefaultConfigurable(defaultConfiguration);
 
         final CatalogPluginApi catalogPluginApi = new CatalogPluginApiImpl(configurationHandler, killbillAPI);
         registerCatalogPluginApi(context, catalogPluginApi);
@@ -101,5 +103,13 @@ public class CatalogActivator extends KillbillActivatorBase {
         final Hashtable<String, String> props = new Hashtable<String, String>();
         props.put(OSGIPluginProperties.PLUGIN_NAME_PROP, PLUGIN_NAME);
         registrar.registerService(context, Healthcheck.class, healthcheck, props);
+    }
+
+    private static CatalogConfiguration createCatalogConfig(final String uri) {
+        final String raw = String.format("!!org.killbill.billing.plugin.catalog.CatalogYAMLConfiguration\n" +
+                "  uri: %s\n" +
+                "  validateAccount: false\n" +
+                "  accountCatalog: true", uri);
+        return CatalogConfigurationHandler.fromYAML(raw);
     }
 }
