@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.kill-bill.billing</groupId>
         <artifactId>killbill-oss-parent</artifactId>
-        <version>0.146.63</version>
+        <version>0.147.0-9c99329-SNAPSHOT</version>
     </parent>
     <groupId>org.kill-bill.billing.plugin.java</groupId>
     <artifactId>catalog-test-plugin</artifactId>
@@ -80,17 +80,17 @@
             <artifactId>guice</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -99,10 +99,6 @@
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jooby</groupId>
-            <artifactId>jooby</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kill-bill.billing</groupId>
@@ -145,6 +141,17 @@
         <dependency>
             <groupId>org.kill-bill.billing.plugin.java</groupId>
             <artifactId>killbill-base-plugin</artifactId>
+            <exclusions>
+                <!-- Excluded here because different in version -->
+                <exclusion>
+                    <groupId>org.kill-bill.commons</groupId>
+                    <artifactId>killbill-jooby</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kill-bill.commons</groupId>
+            <artifactId>killbill-jooby</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kill-bill.commons</groupId>
