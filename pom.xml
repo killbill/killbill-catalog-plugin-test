@@ -43,7 +43,7 @@
     </issueManagement>
     <properties>
         <check.skip-spotbugs>true</check.skip-spotbugs>
-        <killbill.version>0.24.0</killbill.version>
+        <killbill.version>0.26.0-52c0186-SNAPSHOT</killbill.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <osgi.export>org.killbill.xmlloader;version=0.0.0,
             javax.xml.bind;version=0.0.0,
@@ -108,6 +108,14 @@
         <dependency>
             <groupId>org.kill-bill.billing</groupId>
             <artifactId>killbill-catalog</artifactId>
+            <exclusions>
+                <!-- killbill-catalog pulls killbill-util at compile scope.
+                Redisson is unused here and triggers a Netty upper-bound conflict -->
+                <exclusion>
+                    <groupId>org.redisson</groupId>
+                    <artifactId>redisson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kill-bill.billing</groupId>
