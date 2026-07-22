@@ -43,13 +43,11 @@
     </issueManagement>
     <properties>
         <check.skip-spotbugs>true</check.skip-spotbugs>
-        <killbill.version>0.26.0-52c0186-SNAPSHOT</killbill.version>
+        <killbill.version>0.25.1</killbill.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <osgi.export>org.killbill.xmlloader;version=0.0.0,
             javax.xml.bind;version=0.0.0,
             org.killbill.commons.concurrent;version=0.0.0,
-            org.killbill.commons.utils;version=0.0.0,
-            org.killbill.commons.utils.io;version=0.0.0,
             org.killbill.billing.util.config.definition;version=0.0.0</osgi.export>
         <osgi.private>org.killbill.billing.plugin.catalog.*</osgi.private>
     </properties>
@@ -164,7 +162,7 @@
         <dependency>
             <groupId>org.kill-bill.commons</groupId>
             <artifactId>killbill-utils</artifactId>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
