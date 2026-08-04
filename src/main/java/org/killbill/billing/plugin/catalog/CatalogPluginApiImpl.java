@@ -19,7 +19,6 @@
 package org.killbill.billing.plugin.catalog;
 
 import org.joda.time.DateTime;
-import org.killbill.billing.account.api.Account;
 import org.killbill.billing.account.api.AccountApiException;
 import org.killbill.billing.catalog.StandaloneCatalog;
 import org.killbill.billing.catalog.api.CatalogApiException;
@@ -100,30 +99,31 @@ public class CatalogPluginApiImpl implements CatalogPluginApi {
 
         try {
             return readCatalogFromPath(catalogPath);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (CatalogApiException e) {
+        } catch (MalformedURLException | CatalogApiException e) {
             throw new RuntimeException(e);
         }
     }
 
 
     VersionedPluginCatalog readCatalogFromPath(final String path) throws MalformedURLException, CatalogApiException {
-        final VersionedCatalogLoader loader = new VersionedCatalogLoader(getCatalogConfig(), null, null);
-        final VersionedCatalog tmp = loader.loadDefaultCatalog(path);
-        final Iterable<StandalonePluginCatalog> versions = toStandalonePluginCatalogs(tmp.getVersions().stream().map(v -> (StandaloneCatalog) v).collect(Collectors.toList()));
+        try (final VersionedCatalogLoader loader = new VersionedCatalogLoader(getCatalogConfig(), null, null)) {
+            final VersionedCatalog tmp = loader.loadDefaultCatalog(path);
+            final Iterable<StandalonePluginCatalog> versions = toStandalonePluginCatalogs(tmp.getVersions().stream().map(v -> (StandaloneCatalog) v).collect(Collectors.toList()));
 
-        final VersionedPluginCatalogImp.Builder b = new VersionedPluginCatalogImp.Builder()
-                .withStandalonePluginCatalogs(versions);
+            final VersionedPluginCatalogImp.Builder<?> b = new VersionedPluginCatalogImp.Builder<>()
+                    // https://github.com/killbill/killbill-catalog-plugin-test/issues/39
+                    .withCatalogName(tmp.getCatalogName())
+                    .withStandalonePluginCatalogs(versions);
 
-        return new VersionedPluginCatalogImp(b.build());
+            return new VersionedPluginCatalogImp(b.build());
+        }
     }
 
 
 
     private Iterable<StandalonePluginCatalog> toStandalonePluginCatalogs(final List<StandaloneCatalog> input) {
         return input.stream()
-                .map(i -> new StandalonePluginCatalogImp.Builder()
+                .map(i -> new StandalonePluginCatalogImp.Builder<>()
                         .withEffectiveDate(new DateTime(i.getEffectiveDate()))
                         .withUnits(Arrays.asList(i.getUnits()))
                         .withCurrencies(Arrays.asList(i.getSupportedCurrencies()))
@@ -136,10 +136,9 @@ public class CatalogPluginApiImpl implements CatalogPluginApi {
                 .collect(Collectors.toList());
     }
 
-    private Account checkAccount(final UUID accountId, final UUID tenantId) throws AccountApiException {
+    private void checkAccount(final UUID accountId, final UUID tenantId) throws AccountApiException {
         final TenantContextImp context = new TenantContextImp.Builder<>().withAccountId(accountId).withTenantId(tenantId).build();
-        final Account account = osgiKillbillAPI.getAccountUserApi().getAccountById(accountId, context);
-        return account;
+        osgiKillbillAPI.getAccountUserApi().getAccountById(accountId, context);
     }
 
 
