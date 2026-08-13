@@ -19,8 +19,8 @@ package org.killbill.billing.plugin.catalog;
 
 import java.util.Optional;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import org.jooby.Result;
 import org.jooby.mvc.GET;

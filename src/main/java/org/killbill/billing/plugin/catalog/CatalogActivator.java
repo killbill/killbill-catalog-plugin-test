@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
 
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.http.HttpServlet;
 
 public class CatalogActivator extends KillbillActivatorBase {
 
