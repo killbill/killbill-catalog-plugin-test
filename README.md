@@ -29,6 +29,8 @@ Kill Bill compatibility
 
 There is no requirement aside from running Kill Bill.Based on the configuration, the plugin may expect specific resources to be available or access to file system to load some catalog versions.
 
+Version `0.6.y` mark of removal Java EE `javax` namespace and use `jakarta` namespace instead.
+
 ## Build
 
 ```
