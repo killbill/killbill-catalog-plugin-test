@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.kill-bill.billing</groupId>
         <artifactId>killbill-oss-parent</artifactId>
-        <version>0.147.20</version>
+        <version>0.147.30</version>
     </parent>
     <groupId>org.kill-bill.billing.plugin.java</groupId>
     <artifactId>catalog-test-plugin</artifactId>
@@ -30,12 +30,12 @@
     <packaging>bundle</packaging>
     <name>Test Plugin for CatalogPluginApi</name>
     <description>Test Plugin for CatalogPluginApi</description>
-    <url>http://github.com/killbill/killbill-catalog-plugin-test</url>
+    <url>https://github.com/killbill/killbill-catalog-plugin-test</url>
     <scm>
         <connection>scm:git:git://github.com/killbill/killbill-catalog-plugin-test.git</connection>
         <developerConnection>scm:git:git@github.com:killbill/killbill-catalog-plugin-test.git</developerConnection>
         <tag>HEAD</tag>
-        <url>http://github.com/killbill/killbill-catalog-plugin-test/tree/master</url>
+        <url>https://github.com/killbill/killbill-catalog-plugin-test/tree/master</url>
     </scm>
     <issueManagement>
         <system>Github</system>
@@ -50,6 +50,7 @@
             org.killbill.commons.concurrent;version=0.0.0,
             org.killbill.billing.util.config.definition;version=0.0.0</osgi.export>
         <osgi.private>org.killbill.billing.plugin.catalog.*</osgi.private>
+        <repository.cloudsmith.repo>killbill-catalog-plugin-test</repository.cloudsmith.repo>
     </properties>
     <dependencies>
         <dependency>
