@@ -33,14 +33,12 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Test(groups = {"fast"})
@@ -74,6 +72,17 @@ public class TestCatalogTestPluginApi {
                 .build();
 
         final VersionedPluginCatalog catalog = api.getVersionedPluginCatalog(Collections.emptyList(), tenantContext);
+
+        // Reproduces https://github.com/killbill/killbill-catalog-plugin-test catalogName bug:
+        // WeaponsHire.xml sets <catalogName>Firearms</catalogName>, but CatalogPluginApiImpl#readCatalogFromPath
+        // never forwards it to VersionedPluginCatalogImp.Builder#withCatalogName(...), so this comes back null.
+        // This in turn causes DefaultCatalogUserApi#createDefaultEmptyCatalog to fail with
+        // "Invalid catalog for tenant" (cvc-complex-type.2.4.a on 'catalogName') when a tenant is created
+        // with useGlobalDefault=false while this plugin is installed.
+        //
+        // Fixed by adding .withCatalogName(tmp.getCatalogName()) in CatalogPluginApiImpl#readCatalogFromPath()
+        Assert.assertEquals(catalog.getCatalogName(), "Firearms");
+
         final Iterable<StandalonePluginCatalog> rawVersions = catalog.getStandalonePluginCatalogs();
 
         verifyCatalog(rawVersions);
@@ -101,6 +110,10 @@ public class TestCatalogTestPluginApi {
                 .build();
 
         final VersionedPluginCatalog catalog = api.getVersionedPluginCatalog(Collections.emptyList(), tenantContext);
+
+        // See explanation in #testReadCatalogFromResource() test above
+        Assert.assertEquals(catalog.getCatalogName(), "Firearms");
+
         final Iterable<StandalonePluginCatalog> rawVersions = catalog.getStandalonePluginCatalogs();
 
         verifyCatalog(rawVersions);
@@ -108,7 +121,7 @@ public class TestCatalogTestPluginApi {
 
     private void verifyCatalog(final Iterable<StandalonePluginCatalog> rawVersions) {
 
-        final List<StandalonePluginCatalog> versions = StreamSupport.stream(rawVersions.spliterator(), false).collect(Collectors.toList());
+        final List<StandalonePluginCatalog> versions = StreamSupport.stream(rawVersions.spliterator(), false).toList();
         Assert.assertEquals(1, versions.size());
 
         final StandalonePluginCatalog v1 = versions.get(0);
@@ -135,7 +148,7 @@ public class TestCatalogTestPluginApi {
         // Write resource catalog on the filesystem
         final Path tempFile = Files.createTempFile(tmpDir, "v1_", ".xml");
         final String content = IOUtils.toString(url.openStream());
-        Files.write(tempFile, content.getBytes(StandardCharsets.UTF_8));
+        Files.writeString(tempFile, content);
         return tmpRootDir.toString();
     }
 

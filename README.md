@@ -17,16 +17,19 @@ Kill Bill compatibility
 
 
 | Plugin version | Kill Bill version |
-| -------------: | ----------------: |
-| 0.2.y          | 0.18.z            |
-| 0.3.y          | 0.20.z            |
-| 0.4.y          | 0.22.z            |
-| 0.5.y          | 0.24.z            |
+|---------------:|------------------:|
+|          0.2.y |            0.18.z |
+|          0.3.y |            0.20.z |
+|          0.4.y |            0.22.z |
+|          0.5.y |            0.24.z |
+|          0.6.y |            0.26.z |
 
 
 ## Requirements
 
 There is no requirement aside from running Kill Bill.Based on the configuration, the plugin may expect specific resources to be available or access to file system to load some catalog versions.
+
+Version `0.6.y` mark of removal Java EE `javax` namespace and use `jakarta` namespace instead.
 
 ## Build
 
